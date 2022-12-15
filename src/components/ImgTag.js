@@ -12,7 +12,6 @@ function ImgTag ( props ) {
                 id={ props.id }
                 src={ `../../images/${props.name}.jfif` }
                 alt={ props.name }
-                onClick={ props.onClick }
             />
         </>
     )

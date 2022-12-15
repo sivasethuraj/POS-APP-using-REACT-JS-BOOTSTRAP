@@ -9,7 +9,7 @@ function UpperTablePage () {
     }
     return (
         <div className="col-sm-12 col-md-5 leftside-top istrow overflow-auto" id="tablepage" style={ style }>
-            <div class="my-1">
+            <div className="my-1">
                 <input className="form-control" value="Total Price Is : " readOnly id="wholetotalprice" type="text" />
 
                 <table className="table table-borderless">
