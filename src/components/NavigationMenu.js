@@ -1,8 +1,10 @@
 import React from 'react'
-
+import "./liWidth.css";
 import Li from './Li';
 function NavigationMenu () {
-
+    const style = {
+        height: "80vh",
+    }
     const cursor = {
         cursor: "pointer",
     }
@@ -10,7 +12,7 @@ function NavigationMenu () {
         backgroundColor: "#878885",
     }
     return (
-        <div className="col-12 col-sm-12 col-md-2 carousel slide" id="nav-items">
+        <div className="col-12 col-sm-12 col-md-2 carousel slide" id="nav-items" style={ style }>
             <ul className="nav flex-column nav-pills carousel-inner" style={ cursor }>
 
                 <li className="nav-item my-1 arrow" style={ background }>

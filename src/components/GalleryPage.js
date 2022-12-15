@@ -5,7 +5,7 @@ import ImgTag from "./ImgTag";
 function GalleryPage () {
 
     const overflow = {
-        height: "80%",
+        height: "80vh",
         overflow: 'auto',
     }
 

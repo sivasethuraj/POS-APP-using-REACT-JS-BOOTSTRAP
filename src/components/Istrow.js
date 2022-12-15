@@ -8,7 +8,7 @@ import { GalleryPage } from './GalleryPage';
 function Istrow () {
 
     const style = {
-        height: '100vh',
+        height: "maxContent",
         backgroundColor: 'grey',
     }
 
