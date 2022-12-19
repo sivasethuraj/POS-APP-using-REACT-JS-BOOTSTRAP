@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Box ( props ) {
 
@@ -13,14 +13,15 @@ function Box ( props ) {
     };
     const navigate = useNavigate();
     return (
-        <div
+
+        <Link to={ props.path }><div
             className={ props.classname + ' bg-primary text-light' }
             style={ style }
 
         >
             <h1>{ props.content }</h1>
         </div >
-
+        </Link>
     );
 }
 export { Box };

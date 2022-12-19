@@ -8,6 +8,7 @@ import data from "./data";
 function Istrow () {
 
     const [ items, setItems ] = useState( data );
+    const [ tableRows, setTableRows ] = useState( [] );
     const style = {
         height: "maxContent",
         backgroundColor: 'grey',
@@ -16,9 +17,18 @@ function Istrow () {
     return (
         <div>
             <div className='row ' style={ style }>
-                <UpperTablePage />
-                <NavigationMenu setItems={ setItems } />
-                <GalleryPage items={ items } />
+
+                <UpperTablePage
+                    tableRows={ tableRows }
+                    setTableRows={ setTableRows }
+                />
+                <NavigationMenu
+                    setItems={ setItems }
+                />
+                <GalleryPage
+                    items={ items }
+                    setTableRows={ setTableRows }
+                />
 
             </div>
         </div>

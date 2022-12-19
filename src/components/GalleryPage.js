@@ -22,8 +22,8 @@ function GalleryPage ( props ) {
 
                         <ImgTag
                             classname='col-3 img-thumbnail rounded'
-                            id={ product.id }
-                            name={ product.name }
+                            item={ product }
+                            setTableRows={ props.setTableRows }
                         />
 
                     </div>

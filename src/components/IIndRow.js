@@ -9,7 +9,7 @@ function IIndRow () {
             <div className="col-12 col-md-5 col-sm-12 leftside-bottom my-5" id="itemname">
                 <div className="row text-center ">
                     <div className="col-3 col-md-3">
-                        <label className="form-label text-primary" htmlFor="itemname">Item Name</label>
+                        <label className="form-label text-primary" htmlFor="itemname">Item Id</label>
                     </div>
                     <div className="col-3 col-md-3">
                         <label className="form-label text-primary" htmlFor="itemprice">Item Price</label>

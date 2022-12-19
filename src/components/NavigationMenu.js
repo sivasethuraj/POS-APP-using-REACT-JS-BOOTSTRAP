@@ -110,7 +110,7 @@ function NavigationMenu ( { setItems } ) {
                 />
 
                 <Li
-                    liclassname='nav-item my-1 '
+                    liclassname='nav-item '
                     aclassname="fruit nav-link text-light bg-primary carousel-item menu"
                     aria="page"
                     onclick={ setItems }
@@ -120,7 +120,7 @@ function NavigationMenu ( { setItems } ) {
                 />
 
                 <Li
-                    liclassname='nav-item my-1 '
+                    liclassname='nav-item '
                     aclassname="starchy nav-link text-light bg-primary carousel-item menu"
                     aria="page"
                     onclick={ setItems }

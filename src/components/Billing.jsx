@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { IIndRow } from "./IIndRow";
 import { Istrow } from "./Istrow";
+//
 
 function Billing() {
   const style = {
