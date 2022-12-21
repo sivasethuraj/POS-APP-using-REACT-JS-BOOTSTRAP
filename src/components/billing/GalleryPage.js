@@ -24,6 +24,7 @@ function GalleryPage ( props ) {
                             classname='col-3 img-thumbnail rounded'
                             item={ product }
                             setTableRows={ props.setTableRows }
+                            setWholeTotalPrice={ props.setWholeTotalPrice }
                         />
 
                     </div>

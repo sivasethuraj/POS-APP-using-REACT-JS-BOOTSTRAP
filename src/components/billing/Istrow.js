@@ -9,6 +9,7 @@ function Istrow () {
 
     const [ items, setItems ] = useState( data );
     const [ tableRows, setTableRows ] = useState( [] );
+    const [ wholeTotalPrice, setWholeTotalPrice ] = useState( 0 );
     const style = {
         height: "maxContent",
         backgroundColor: 'grey',
@@ -21,6 +22,8 @@ function Istrow () {
                 <UpperTablePage
                     tableRows={ tableRows }
                     setTableRows={ setTableRows }
+                    wholeTotalPrice={ wholeTotalPrice }
+                    setWholeTotalPrice={ setWholeTotalPrice }
                 />
                 <NavigationMenu
                     setItems={ setItems }
@@ -28,6 +31,7 @@ function Istrow () {
                 <GalleryPage
                     items={ items }
                     setTableRows={ setTableRows }
+                    setWholeTotalPrice={ setWholeTotalPrice }
                 />
 
             </div>

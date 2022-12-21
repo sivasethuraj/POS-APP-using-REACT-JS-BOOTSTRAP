@@ -4,6 +4,7 @@ function ImgTag ( props ) {
 
     const [ product, setProduct ] = useState( props.item )
     const { id, name } = product;
+    const setWholeTotalPrice = props.setWholeTotalPrice;
 
     const style = {
         height: '20vh',
@@ -11,19 +12,35 @@ function ImgTag ( props ) {
     };
 
     const setTableRows = props.setTableRows;
+    let totalPrice = 0;
+
+    const updaterFunction = () => {
+        let newTableRow = [];
+        for ( const key in localStorage ) {
+
+            if ( localStorage.hasOwnProperty( key ) ) {
+
+                let object = JSON.parse( localStorage.getItem( key ) );
+                newTableRow.unshift( object );
+                totalPrice += object.totalPrice;
+
+            }
+        }
+        setTableRows( () => newTableRow );
+        setWholeTotalPrice( totalPrice );
+    }
 
     const handleClick = () => {
 
         if ( localStorage.hasOwnProperty( id ) ) {
-            let existingProduct = localStorage.getItem( id );
-            console.log( existingProduct );
+            let existingProduct = JSON.parse( localStorage.getItem( id ) );
+
             const newProduct = {
                 ...existingProduct,
                 quantity: ( existingProduct.quantity + 1 ),
                 totalPrice: ( ( existingProduct.quantity + 1 ) * existingProduct.unitPrice ),
             };
             localStorage.setItem( `${id}`, JSON.stringify( newProduct ) );
-            console.log( newProduct );
 
         } else {
             const newProduct = {
@@ -32,35 +49,13 @@ function ImgTag ( props ) {
                 "totalPrice": ( ( product.quantity + 1 ) * product.unitPrice ),
             };
             localStorage.setItem( `${id}`, JSON.stringify( newProduct ) );
-            console.log( newProduct );
+
         }
-
-        let newTableRow = [];
-        for ( const key in localStorage ) {
-
-            if ( localStorage.hasOwnProperty( key ) ) {
-
-                let object = JSON.parse( localStorage.getItem( key ) );
-                newTableRow.unshift( object );
-
-                console.log( "object ", object )
-                console.log( "newTableRow : ", newTableRow );
-            }
-        }
-        setTableRows( () => newTableRow );
+        updaterFunction();
     }
     useEffect( () => {
 
-        let newTableRow = [];
-        for ( const key in localStorage ) {
-
-            if ( localStorage.hasOwnProperty( key ) ) {
-
-                let object = JSON.parse( localStorage.getItem( key ) );
-                newTableRow.unshift( object );
-            }
-        }
-        setTableRows( () => newTableRow );
+        updaterFunction();
     }, [] );
 
     return (

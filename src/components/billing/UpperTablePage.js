@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./hover.css"
 
-function UpperTablePage ( { tableRows, setTableRows } ) {
-
-    const [ wholeTotalPrice, setWholeTotalPrice ] = useState( 0 );
+function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTotalPrice } ) {
 
     const style = {
         height: "80vh",
@@ -28,7 +26,11 @@ function UpperTablePage ( { tableRows, setTableRows } ) {
                     <tbody id="tbody">
                         {
                             tableRows && tableRows.map( ( item, index ) => {
-                                return <Tl key={ index } item={ item } />
+                                return <Tl
+                                    key={ index }
+                                    item={ item }
+                                    setTableRows={ setTableRows }
+                                    setWholeTotalPrice={ setWholeTotalPrice } />
                             } )
                         }
                     </tbody>
@@ -43,14 +45,18 @@ export { UpperTablePage };
 
 function Tl ( props ) {
 
-    const { name, quantity, unitPrice, totalPrice } = props.item;
+    const { id, name, quantity, unitPrice, totalPrice } = props.item;
+
+
     return (
         <tr>
             <td>{ name }</td>
             <td>{ quantity }</td>
             <td>{ unitPrice }</td>
             <td>{ totalPrice }</td>
-            <td><i className="fa-solid fa-xmark"></i></td>
+            <td id={ id }>
+                <i className="fa-solid fa-xmark" id={ id }></i>
+            </td>
 
         </tr>
     );
