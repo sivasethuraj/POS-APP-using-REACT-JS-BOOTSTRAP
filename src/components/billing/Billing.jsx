@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { IIndRow } from "./IIndRow";
 import { Istrow } from "./Istrow";
 //

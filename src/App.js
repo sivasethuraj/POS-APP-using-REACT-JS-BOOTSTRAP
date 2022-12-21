@@ -2,11 +2,11 @@ import React from 'react'
 
 import { Route, Routes } from "react-router-dom";
 
-import ItemRequestPage from "./components/ItemRequestPage";
-import MainMenuPage from './components/MainMenuPage';
-import Billing from './components/Billing'
-import Inventory from './components/Inventory'
-import SalesReportPage1 from './components/SalesReportPage1'
+import ItemRequestPage from "./components/itemrequest/ItemRequestPage";
+import MainMenuPage from './components/mainmenupage/MainMenuPage';
+import Billing from './components/billing/Billing'
+import Inventory from './components/inventory/Inventory'
+import SalesReportPage1 from './components/salesreport/SalesReportPage1'
 
 
 function App () {

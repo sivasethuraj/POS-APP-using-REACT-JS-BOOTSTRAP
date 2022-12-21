@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Box } from "./Box";
-import { Link } from "react-router-dom"
 
 class MainMenuPage extends Component {
 

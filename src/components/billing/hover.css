@@ -1,0 +1,6 @@
+.fa-xmark {
+  color: #da0c0c;
+}
+.fa-xmark:hover {
+  transform: scale(1.7);
+}

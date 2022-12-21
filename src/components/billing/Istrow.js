@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { UpperTablePage } from "./UpperTablePage";
 import { NavigationMenu } from "./NavigationMenu";
 import { GalleryPage } from './GalleryPage';
-import data from "./data";
+import data from "../data";
 
 
 function Istrow () {

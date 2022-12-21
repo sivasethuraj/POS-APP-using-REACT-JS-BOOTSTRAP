@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import "./hover.css"
 
 function UpperTablePage ( { tableRows, setTableRows } ) {
 
@@ -8,24 +9,6 @@ function UpperTablePage ( { tableRows, setTableRows } ) {
         height: "80vh",
         overflow: "auto",
     }
-    // 
-    const tableRow = [];
-    useEffect( () => {
-
-        for ( const key in localStorage ) {
-
-            if ( localStorage.hasOwnProperty( key ) ) {
-                const object = JSON.parse( localStorage.getItem( key ) );
-
-                const { name, quantity, unitPrice, totalPrice } = object;
-                // console.log( name, quantity, unitPrice, totalPrice );
-                tableRow.unshift( { name, quantity, unitPrice, totalPrice } );
-                // console.log( tableRow );
-            }
-
-        }
-    }, [ tableRows ] );
-
 
     return (
         <div className="col-sm-12 col-md-5 overflow-auto" id="tablepage" style={ style }>
@@ -57,7 +40,9 @@ function UpperTablePage ( { tableRows, setTableRows } ) {
 
 export { UpperTablePage };
 
+
 function Tl ( props ) {
+
     const { name, quantity, unitPrice, totalPrice } = props.item;
     return (
         <tr>
