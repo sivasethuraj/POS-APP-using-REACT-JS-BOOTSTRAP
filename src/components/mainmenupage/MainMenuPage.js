@@ -4,7 +4,7 @@ import { Box } from "./Box";
 class MainMenuPage extends Component {
 
     state = {
-        backgroundColor: 'grey',
+        backgroundColor: '#aaaeb1af',
         minHeight: '100vh',
     }
 

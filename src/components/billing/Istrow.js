@@ -12,7 +12,6 @@ function Istrow () {
     const [ wholeTotalPrice, setWholeTotalPrice ] = useState( 0 );
     const style = {
         height: "maxContent",
-        backgroundColor: 'grey',
     }
 
     return (

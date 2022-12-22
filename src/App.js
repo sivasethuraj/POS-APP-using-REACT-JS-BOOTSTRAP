@@ -12,7 +12,7 @@ import SalesReportPage1 from './components/salesreport/SalesReportPage1'
 function App () {
 
   const style = {
-    backgroundColor: 'grey',
+    backgroundColor: '#aaaeb1af',
   };
 
   return (

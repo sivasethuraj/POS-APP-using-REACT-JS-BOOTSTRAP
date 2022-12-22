@@ -7,6 +7,9 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
         height: "80vh",
         overflow: "auto",
     }
+    const tdWidth = {
+        width: "10em",
+    }
 
     return (
         <div className="col-sm-12 col-md-5 overflow-auto" id="tablepage" style={ style }>
@@ -16,11 +19,11 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
                 <table className="table table-borderless">
                     <thead>
                         <tr>
-                            <th>Item</th>
+                            <th style={ tdWidth }>Item</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
                             <th>Total Price</th>
-                            <th></th>
+                            <th>Remove</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -47,14 +50,24 @@ function Tl ( props ) {
 
     const { id, name, quantity, unitPrice, totalPrice } = props.item;
 
+    const removeItem = ( e ) => {
 
+        let id = e.target.id;
+        // console.log( e.target.id );
+        localStorage.removeItem( id );
+        console.log( "removed item successfully" );
+    }
     return (
         <tr>
             <td>{ name }</td>
-            <td>{ quantity }</td>
-            <td>{ unitPrice }</td>
-            <td>{ totalPrice }</td>
-            <td id={ id }>
+            <td >{ quantity }</td>
+            <td className="text-center">{ unitPrice }</td>
+            <td className="text-center">{ totalPrice }</td>
+            <td
+                id={ id }
+                className="text-center"
+                onClick={ ( e ) => removeItem( e ) }
+            >
                 <i className="fa-solid fa-xmark" id={ id }></i>
             </td>
 

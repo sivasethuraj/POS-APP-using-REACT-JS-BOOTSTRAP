@@ -12,13 +12,13 @@ function IIndRow () {
                 <div className="col-12 col-md-5 col-sm-12 my-3" id="itemname">
                     <div className="row text-center ">
                         <div className="col-3 col-md-3">
-                            <label className="form-label text-primary" htmlFor="itemname">Item Id</label>
+                            <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Id</label>
                         </div>
                         <div className="col-3 col-md-3">
-                            <label className="form-label text-primary" htmlFor="itemprice">Item Price</label>
+                            <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemprice">Item Price</label>
                         </div>
                         <div className="col-3 col-md-3">
-                            <label className="form-label text-primary" htmlFor="itemquantity">
+                            <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemquantity">
                                 Quantity</label>
 
                         </div>

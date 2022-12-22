@@ -9,7 +9,7 @@ function NavigationMenu ( { setItems } ) {
         cursor: "pointer",
     }
     const background = {
-        backgroundColor: "#898898",
+        backgroundColor: "#87888aaf",
     }
     return (
         <div className="col-12 col-sm-12 col-md-2 carousel slide" id="nav-items" style={ style }>
