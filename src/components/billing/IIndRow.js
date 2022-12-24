@@ -1,6 +1,6 @@
 import React from 'react'
 import "./buttonstyle.css"
-function IIndRow () {
+function IIndRow ( props ) {
     const style = {
         height: "auto",
         width: "100 %",
@@ -118,6 +118,7 @@ function IIndRow () {
                             name='Bill'
                             height="6"
                             bg="bg-warning"
+                            onClick={ props.setPayablePage }
                         />
                         <Button
                             className="$5"
@@ -178,13 +179,17 @@ export { IIndRow };
 export default function Button ( props ) {
     const style = {
         width: "7em",
-        height: `${props.height}em`
+        height: `${props.height}em`,
     }
-
+    let onClick = props.onClick ? props.onClick : () => {
+        console.log( "this feature will enabling soon!" );
+    }
     return (
         <div>
-            <button className={ `btn btn-primary p-4 
-            ${props.bg} text-light ${props.className}` } style={ style }>
+            <button
+                onClick={ onClick }
+                className={ `btn btn-primary p-4 ${props.bg} text-light ${props.className}` }
+                style={ style }>
                 { props.className === "bill" && <i className=" fa-solid fa-play"></i> }
                 { props.name }
             </button>

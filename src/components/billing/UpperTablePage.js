@@ -50,12 +50,28 @@ function Tl ( props ) {
 
     const { id, name, quantity, unitPrice, totalPrice } = props.item;
 
-    const removeItem = ( e ) => {
+    const updaterFunction = () => {
+        let newTableRow = [];
+        let wholeTotalPrice = 0;
 
+        for ( const key in localStorage ) {
+
+            if ( localStorage.hasOwnProperty( key ) ) {
+
+                let object = JSON.parse( localStorage.getItem( key ) );
+                newTableRow.unshift( object );
+                wholeTotalPrice += object.totalPrice;
+            }
+        }
+        props.setTableRows( () => newTableRow );
+        props.setWholeTotalPrice( wholeTotalPrice );
+    };
+
+    const removeItem = ( e ) => {
         let id = e.target.id;
-        // console.log( e.target.id );
         localStorage.removeItem( id );
-        console.log( "removed item successfully" );
+        updaterFunction();
+        console.log( "removed id: ", id, "successfully" );
     }
     return (
         <tr>

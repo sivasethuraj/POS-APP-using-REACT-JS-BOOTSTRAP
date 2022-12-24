@@ -115,7 +115,7 @@ function NavigationMenu ( { setItems } ) {
                     aria="page"
                     onclick={ setItems }
                     id="fruit-btn"
-                    content="Fruit and vegetables."
+                    content="Fruit and vegetables"
                     name="fruits"
                 />
 

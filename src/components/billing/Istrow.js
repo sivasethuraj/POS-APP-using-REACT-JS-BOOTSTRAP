@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import { UpperTablePage } from "./UpperTablePage";
 import { NavigationMenu } from "./NavigationMenu";
 import { GalleryPage } from './GalleryPage';
+import { Payable } from './Payable';
 import data from "../data";
 
 
-function Istrow () {
+function Istrow ( props ) {
 
     const [ items, setItems ] = useState( data );
     const [ tableRows, setTableRows ] = useState( [] );
     const [ wholeTotalPrice, setWholeTotalPrice ] = useState( 0 );
+
     const style = {
         height: "maxContent",
     }
@@ -17,13 +19,16 @@ function Istrow () {
     return (
         <div>
             <div className='row ' style={ style }>
-
-                <UpperTablePage
-                    tableRows={ tableRows }
-                    setTableRows={ setTableRows }
-                    wholeTotalPrice={ wholeTotalPrice }
-                    setWholeTotalPrice={ setWholeTotalPrice }
-                />
+                {
+                    props.payablePage ?
+                        <Payable />
+                        : <UpperTablePage
+                            tableRows={ tableRows }
+                            setTableRows={ setTableRows }
+                            wholeTotalPrice={ wholeTotalPrice }
+                            setWholeTotalPrice={ setWholeTotalPrice }
+                        />
+                }
                 <NavigationMenu
                     setItems={ setItems }
                 />
