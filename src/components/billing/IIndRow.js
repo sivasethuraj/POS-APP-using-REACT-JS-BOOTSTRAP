@@ -177,6 +177,7 @@ export { IIndRow };
 
 
 export default function Button ( props ) {
+    const navigate = useNavigate();
     const style = {
         width: "7em",
         height: `${props.height}em`,
