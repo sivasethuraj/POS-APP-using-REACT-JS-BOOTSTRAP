@@ -10,23 +10,27 @@ function Istrow ( props ) {
 
     const [ items, setItems ] = useState( data );
     const [ tableRows, setTableRows ] = useState( [] );
-    const [ wholeTotalPrice, setWholeTotalPrice ] = useState( 0 );
-
+    const { wholeTotalPrice, setWholeTotalPrice } = props;
     const style = {
         height: "maxContent",
     }
-
     return (
         <div>
             <div className='row ' style={ style }>
                 {
                     props.payablePage ?
-                        <Payable />
+                        <Payable
+                            billingValues={ props.billingValues }
+                            setBillingValues={ props.setBillingValues }
+                            setPayablePage={ props.setPayablePage }
+                            setTableRows={ setTableRows }
+                        />
                         : <UpperTablePage
                             tableRows={ tableRows }
                             setTableRows={ setTableRows }
                             wholeTotalPrice={ wholeTotalPrice }
                             setWholeTotalPrice={ setWholeTotalPrice }
+                            setBillingValues={ props.setBillingValues }
                         />
                 }
                 <NavigationMenu
@@ -37,7 +41,6 @@ function Istrow ( props ) {
                     setTableRows={ setTableRows }
                     setWholeTotalPrice={ setWholeTotalPrice }
                 />
-
             </div>
         </div>
     )

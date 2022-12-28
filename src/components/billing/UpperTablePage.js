@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./hover.css"
 
-function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTotalPrice } ) {
+function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTotalPrice, setBillingValues } ) {
 
     const style = {
         height: "80vh",
@@ -33,7 +33,8 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
                                     key={ index }
                                     item={ item }
                                     setTableRows={ setTableRows }
-                                    setWholeTotalPrice={ setWholeTotalPrice } />
+                                    setWholeTotalPrice={ setWholeTotalPrice }
+                                    setBillingValues={ setBillingValues } />
                             } )
                         }
                     </tbody>
@@ -63,8 +64,20 @@ function Tl ( props ) {
                 wholeTotalPrice += object.totalPrice;
             }
         }
-        props.setTableRows( () => newTableRow );
-        props.setWholeTotalPrice( wholeTotalPrice );
+        const { setTableRows, setWholeTotalPrice, setBillingValues } = props;
+        setTableRows( () => newTableRow );
+        setWholeTotalPrice( wholeTotalPrice );
+        setBillingValues( ( prev ) => {
+            console.log( "gstAmount:", parseFloat( prev.amount * 0.18 ).toFixed( 2 ) )
+            return {
+                ...prev,
+                amount: wholeTotalPrice,
+                gstAmount: parseFloat( prev.amount * 0.18 ).toFixed( 2 ),
+                payable: prev.amount + prev.gstAmount,
+            }
+        } );
+
+
     };
 
     const removeItem = ( e ) => {

@@ -1,10 +1,13 @@
 import React from 'react'
-function Payable () {
+function Payable ( props ) {
 
     const style = {
         height: "80vh",
         overflow: "auto",
     }
+
+    let { amount, gstAmount, payable, tender, change } = props.billingValues;
+
     return (
         <div className="col-sm-12 col-md-5"
             id="billpage"
@@ -13,7 +16,7 @@ function Payable () {
             <div className="my-1">
                 <input
                     className="form-control"
-                    value="Change : "
+                    value={ `Change : ${change}` }
                     id="change-input"
                     readOnly
                     type="text"
@@ -26,7 +29,9 @@ function Payable () {
                             id="amount"
                             readOnly
                             className="form-control"
-                            type="number" />
+                            type="number"
+                            value={ amount }
+                        />
                     </span>
                 </div>
                 <div className="row my-1 ">
@@ -35,7 +40,10 @@ function Payable () {
                         <input
                             id="gstamount"
                             className=" form-control "
-                            type="number" />
+                            type="number"
+                            readOnly
+                            value={ gstAmount }
+                        />
                     </span>
                 </div>
                 <hr />
@@ -46,7 +54,9 @@ function Payable () {
                             type="number"
                             className="form-control"
                             readOnly
-                            id="payable" />
+                            id="payable"
+                            value={ payable }
+                        />
                     </span>
                 </div>
                 <hr />
@@ -56,7 +66,9 @@ function Payable () {
                         <input
                             id="tender"
                             className="form-control"
-                            type="number" />
+                            type="number"
+                            readOnly
+                            value={ tender } />
                     </span>
                 </div>
                 <div className="row my-1">
@@ -66,11 +78,27 @@ function Payable () {
                             className="form-control"
                             readOnly
                             id="change"
-                            type="number" />
+                            type="number"
+                            value={ change }
+                        />
                     </span>
                 </div>
                 <div className="row py-3 justify-content-center">
-                    <button className="col-3 btn btn-outline-success text-center btn-normal" id="goback-btn">
+                    <button className="col-3 btn btn-outline-success text-center btn-normal" id="goback-btn"
+                        onClick={ () => {
+
+                            // props.setBillingValues( {
+                            //     amount: 0,
+                            //     gstAmount: 0,
+                            //     payable: 0,
+                            //     tender: 0,
+                            //     change: 0,
+                            // } );
+                            // localStorage.clear();
+                            // props.setTableRows( [] );
+                            alert( "Successfully Paid!" );
+                            // props.setPayablePage();
+                        } }>
                         PAY
                     </button>
                 </div>

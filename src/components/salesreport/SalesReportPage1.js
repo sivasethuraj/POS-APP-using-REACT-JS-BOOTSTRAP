@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 const heightStyle = {
     minHeight: '70vh',
 }
@@ -26,16 +26,15 @@ function addRows () {
 }
 
 function SalesReportPage1 () {
-    const navigate = useNavigate();
     return (
         <div className="container" >
             <div>
                 <div className="row ">
                     <div className="col-3 ">
-                        <i
-                            style={ { cursor: "pointer" } } onClick={ () => {
-                                navigate( "/" );
-                            } } class="fa fa-home text-light bg-primary p-2 border border-dark rounded " aria-hidden="true"></i>
+                        <Link to="/">
+                            <i
+                                style={ { cursor: "pointer" } } className="fa fa-home text-light bg-primary p-2 border border-dark rounded " aria-hidden="true"></i>
+                        </Link>
                     </div>
                     <div className="col ">
                         <h3>Sales Report</h3>

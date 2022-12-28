@@ -1,47 +1,45 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Inventory() {
-  const navigate = useNavigate();
   const heightStyle = {
     minHeight: "84vh",
   };
 
   let tr = [];
-  function addRows() {
-    for (const key in localStorage) {
-      let sno = 1;
-      const object = JSON.parse(localStorage.getItem(key));
+  // function addRows() {
+  //   for (const key in localStorage) {
+  //     let sno = 1;
+  //     const object = JSON.parse(localStorage.getItem(key));
 
-      if (localStorage.hasOwnProperty(key)) {
-        tr.push(
-          <tr>
-            <td>{sno}</td>
-            <td>{object.name}</td>
-            <td>{object.soldQuantity}</td>
-            <td>
-              {parseFloat(object.price) * parseFloat(object.soldQuantity)}
-            </td>
-          </tr>
-        );
-        sno = sno + 1;
-      }
-    }
-  }
+  //     if (localStorage.hasOwnProperty(key)) {
+  //       tr.push(
+  //         <tr>
+  //           <td>{sno}</td>
+  //           <td>{object.name}</td>
+  //           <td>{object.soldQuantity}</td>
+  //           <td>
+  //             {parseFloat(object.price) * parseFloat(object.soldQuantity)}
+  //           </td>
+  //         </tr>
+  //       );
+  //       sno = sno + 1;
+  //     }
+  //   }
+  // }
 
   return (
     <div className="container">
       <div>
         <div className="row ">
           <div className="col-3 ">
-            <i
-              class="fa fa-home text-light bg-primary p-2 border border-dark rounded "
-              aria-hidden="true"
-              onClick={() => {
-                navigate("/");
-              }}
-              style={{ cursor: "pointer" }}
-            ></i>
+            <Link to="/">
+              <i
+                className="fa fa-home text-light bg-primary p-2 border border-dark rounded "
+                aria-hidden="true"
+                style={{ cursor: "pointer" }}
+              ></i>
+            </Link>
           </div>
           <div className="col ">
             <h3>Inventory</h3>

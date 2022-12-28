@@ -1,11 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
+import { Payable } from './Payable';
 function IIndRow ( props ) {
     const style = {
         height: "auto",
         width: "100 %",
     }
-
     return (
         <>
             <div className="row" style={ style }>
@@ -59,12 +60,27 @@ function IIndRow ( props ) {
                             name="$2"
                             height="6"
                             bg="bg-warning"
+                            onClick={ () => props.setBillingValues( ( prev ) => {
+                                return {
+                                    ...prev,
+                                    tender: prev.tender + 2,
+                                    change: prev.tender - prev.payable,
+                                }
+                            } ) }
+
                         />
                         <Button
                             className="$10 py-5"
                             name="$10"
                             height="6"
                             bg="bg-warning"
+                            onClick={ () => props.setBillingValues( ( prev ) => {
+                                return {
+                                    ...prev,
+                                    tender: prev.tender + 10,
+                                    change: prev.tender - prev.payable,
+                                }
+                            } ) }
                         />
                         <div>
                             <Button
@@ -125,12 +141,26 @@ function IIndRow ( props ) {
                             name="$5"
                             height="6"
                             bg="bg-warning"
+                            onClick={ () => props.setBillingValues( ( prev ) => {
+                                return {
+                                    ...prev,
+                                    tender: prev.tender + 5,
+                                    change: prev.tender - prev.payable,
+                                }
+                            } ) }
                         />
                         <Button
                             className="$50"
                             name="$50"
                             height="6"
                             bg="bg-warning"
+                            onClick={ () => props.setBillingValues( ( prev ) => {
+                                return {
+                                    ...prev,
+                                    tender: prev.tender + 50,
+                                    change: prev.tender - prev.payable,
+                                }
+                            } ) }
                         />
                         <Button
                             className="giftvoucher"
@@ -168,9 +198,6 @@ function IIndRow ( props ) {
             </div>
         </>
     );
-    // < button className = "btn btn-primary p-4 bg-warning text-black" id = "bill-btn" >
-    //     <i className="fa-solid fa-play"></i> Bill
-    //         </ >
 }
 
 export { IIndRow };
@@ -184,6 +211,9 @@ export default function Button ( props ) {
     }
     let onClick = props.onClick ? props.onClick : () => {
         console.log( "this feature will enabling soon!" );
+    }
+    if ( props.className === 'mainmenu' ) {
+        onClick = () => navigate( "/" );
     }
     return (
         <div>

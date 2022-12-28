@@ -4,10 +4,26 @@ import { Istrow } from "./Istrow";
 
 function Billing() {
   const [payablePage, setPayablePage] = useState(false);
+  const [billingValues, setBillingValues] = useState({
+    amount: 0,
+    gstAmount: 0,
+    payable: 0,
+    tender: 0,
+    change: 0,
+  });
+  const [wholeTotalPrice, setWholeTotalPrice] = useState(0);
 
   const handlePayablePage = () => {
     setPayablePage((prevPage) => {
       return !prevPage;
+    });
+    setBillingValues((prev) => {
+      return {
+        ...prev,
+        amount: wholeTotalPrice,
+        gstAmount: prev.amount * 0.18,
+        payable: prev.amount + prev.gstAmount,
+      };
     });
   };
 
@@ -17,8 +33,18 @@ function Billing() {
 
   return (
     <div className="billing" style={style}>
-      <Istrow payablePage={payablePage} />
-      <IIndRow setPayablePage={handlePayablePage} />
+      <Istrow
+        payablePage={payablePage}
+        billingValues={billingValues}
+        setBillingValues={setBillingValues}
+        wholeTotalPrice={wholeTotalPrice}
+        setWholeTotalPrice={setWholeTotalPrice}
+        setPayablePage={setPayablePage}
+      />
+      <IIndRow
+        setPayablePage={handlePayablePage}
+        setBillingValues={setBillingValues}
+      />
     </div>
   );
 }
