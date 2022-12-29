@@ -11,17 +11,14 @@ function Payable ( props ) {
     gstAmount = parseFloat( amount * 0.18 ).toFixed( 2 );
     payable = ( parseFloat( amount ) + parseFloat( gstAmount ) ).toFixed( 2 );
     change = ( parseFloat( tender ) - parseFloat( payable ) ).toFixed( 2 );
-
     return (
         <div className="col-sm-12 col-md-5"
-            id="billpage"
             style={ style }
         >
             <div className="my-1">
                 <input
                     className="form-control"
-                    value={ `Change : ${change}` }
-                    id="change-input"
+                    value={ `Change : $ ${change}` }
                     readOnly
                     type="text"
                 />
@@ -30,23 +27,21 @@ function Payable ( props ) {
                     <span className="col-8 text-center">Amount</span>
                     <span className="col-4">
                         <input
-                            id="amount"
                             readOnly
                             className="form-control"
-                            type="number"
-                            value={ amount }
+                            type="text"
+                            value={ `$ ${amount}` }
                         />
                     </span>
                 </div>
                 <div className="row my-1 ">
-                    <span className="col-8 text-center">GST Amount</span>
+                    <span className="col-8 text-center">GST Amount  18%</span>
                     <span className="col-4">
                         <input
-                            id="gstamount"
                             className=" form-control "
-                            type="number"
+                            type="text"
                             readOnly
-                            value={ gstAmount }
+                            value={ `$ ${gstAmount}` }
                         />
                     </span>
                 </div>
@@ -55,11 +50,10 @@ function Payable ( props ) {
                     <span className="col-8 text-danger text-center">Payable</span>
                     <span className="col-4">
                         <input
-                            type="number"
+                            type="text"
                             className="form-control"
                             readOnly
-                            id="payable"
-                            value={ payable }
+                            value={ `$ ${payable}` }
                         />
                     </span>
                 </div>
@@ -68,11 +62,10 @@ function Payable ( props ) {
                     <span className="col-8 text-primary text-center">Tender</span>
                     <span className="col-4">
                         <input
-                            id="tender"
                             className="form-control"
-                            type="number"
+                            type="text"
                             readOnly
-                            value={ tender } />
+                            value={ `$ ${tender}` } />
                     </span>
                 </div>
                 <div className="row my-1">
@@ -81,14 +74,13 @@ function Payable ( props ) {
                         <input
                             className="form-control"
                             readOnly
-                            id="change"
-                            type="number"
-                            value={ change }
+                            type="text"
+                            value={ `$ ${change}` }
                         />
                     </span>
                 </div>
                 <div className="row py-3 justify-content-center">
-                    <button className="col-3 btn btn-outline-success text-center btn-normal" id="goback-btn"
+                    <button className="col-3 btn btn-outline-success text-center btn-normal"
                         onClick={ () => {
                             alert( "Successfully Paid!" );
                         } }>

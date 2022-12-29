@@ -5,12 +5,12 @@ import { Payable } from './Payable';
 function IIndRow ( props ) {
     const style = {
         height: "auto",
-        width: "100 %",
+        width: "100%",
     }
     return (
         <>
-            <div className="row" style={ style }>
-                <div className="col-12 col-md-5 col-sm-12 my-3" id="itemname">
+            <div className="row " style={ style }>
+                <div className="col-12 col-md-5 col-sm-12 my-3 pt-5 ps-4" id="itemname">
                     <div className="row text-center ">
                         <div className="col-3 col-md-3">
                             <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Id</label>
@@ -24,7 +24,7 @@ function IIndRow ( props ) {
 
                         </div>
                     </div>
-                    <div className="row">
+                    <div className="row text-center">
                         <div className="col-3 col-md-3">
                             <input className="form-control" type="text" id="extraitemname" />
                         </div>
@@ -39,8 +39,8 @@ function IIndRow ( props ) {
                         </div>
                     </div>
                 </div>
-                <div className="col-12 col-md-7 col-sm-12 my-5">
-                    <div className="col-12 col-md-6 col-sm-12  d-flex">
+                <div className="col-12 col-md-7 col-sm-12 my-3">
+                    <div className="col-12 col-sm-12 d-flex">
                         <div className="d-flex flex-column">
                             <Button
                                 className="newbill  py-3"

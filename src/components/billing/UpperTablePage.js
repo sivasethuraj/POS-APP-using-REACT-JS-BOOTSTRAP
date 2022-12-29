@@ -6,6 +6,8 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
     const style = {
         height: "80vh",
         overflow: "auto",
+        display: "flex",
+        justifyContent: "center",
     }
     const tdWidth = {
         width: "10em",
@@ -14,7 +16,7 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
     return (
         <div className="col-sm-12 col-md-5 overflow-auto" id="tablepage" style={ style }>
             <div className="my-1">
-                <input className="form-control" value={ `Total Price Is : ${wholeTotalPrice}` } readOnly id="wholetotalprice" type="text" />
+                <input className="form-control" value={ `Total Price Is : $ ${wholeTotalPrice}` } readOnly id="wholetotalprice" type="text" />
 
                 <table className="table table-borderless">
                     <thead>
@@ -89,8 +91,8 @@ function Tl ( props ) {
         <tr>
             <td>{ name }</td>
             <td >{ quantity }</td>
-            <td className="text-center">{ unitPrice }</td>
-            <td className="text-center">{ totalPrice }</td>
+            <td className="text-center">$ { unitPrice }</td>
+            <td className="text-center">$ { totalPrice }</td>
             <td
                 id={ id }
                 className="text-center"
