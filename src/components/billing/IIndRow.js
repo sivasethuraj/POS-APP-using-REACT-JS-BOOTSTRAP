@@ -64,7 +64,6 @@ function IIndRow ( props ) {
                                 return {
                                     ...prev,
                                     tender: prev.tender + 2,
-                                    change: prev.tender - prev.payable,
                                 }
                             } ) }
 
@@ -78,7 +77,6 @@ function IIndRow ( props ) {
                                 return {
                                     ...prev,
                                     tender: prev.tender + 10,
-                                    change: prev.tender - prev.payable,
                                 }
                             } ) }
                         />
@@ -145,7 +143,6 @@ function IIndRow ( props ) {
                                 return {
                                     ...prev,
                                     tender: prev.tender + 5,
-                                    change: prev.tender - prev.payable,
                                 }
                             } ) }
                         />
@@ -158,7 +155,6 @@ function IIndRow ( props ) {
                                 return {
                                     ...prev,
                                     tender: prev.tender + 50,
-                                    change: prev.tender - prev.payable,
                                 }
                             } ) }
                         />

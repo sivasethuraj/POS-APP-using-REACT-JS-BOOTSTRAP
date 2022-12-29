@@ -8,6 +8,10 @@ function Payable ( props ) {
 
     let { amount, gstAmount, payable, tender, change } = props.billingValues;
 
+    gstAmount = parseFloat( amount * 0.18 ).toFixed( 2 );
+    payable = ( parseFloat( amount ) + parseFloat( gstAmount ) ).toFixed( 2 );
+    change = ( parseFloat( tender ) - parseFloat( payable ) ).toFixed( 2 );
+
     return (
         <div className="col-sm-12 col-md-5"
             id="billpage"
@@ -86,18 +90,7 @@ function Payable ( props ) {
                 <div className="row py-3 justify-content-center">
                     <button className="col-3 btn btn-outline-success text-center btn-normal" id="goback-btn"
                         onClick={ () => {
-
-                            // props.setBillingValues( {
-                            //     amount: 0,
-                            //     gstAmount: 0,
-                            //     payable: 0,
-                            //     tender: 0,
-                            //     change: 0,
-                            // } );
-                            // localStorage.clear();
-                            // props.setTableRows( [] );
                             alert( "Successfully Paid!" );
-                            // props.setPayablePage();
                         } }>
                         PAY
                     </button>
