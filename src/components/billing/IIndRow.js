@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
-import { Payable } from './Payable';
 function IIndRow ( props ) {
     const style = {
         height: "auto",
@@ -10,7 +9,7 @@ function IIndRow ( props ) {
     return (
         <>
             <div className="row " style={ style }>
-                <div className="col-12 col-md-5 col-sm-12 my-3 pt-5 ps-4" id="itemname">
+                <div className="col-12 col-md-5 col-sm-12 ps-4 my-3">
                     <div className="row text-center ">
                         <div className="col-3 col-md-3">
                             <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Id</label>

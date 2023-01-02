@@ -12,7 +12,7 @@ function NavigationMenu ( { setItems } ) {
         backgroundColor: "#87888aaf",
     }
     return (
-        <div className="col-12 col-sm-12 col-md-2 carousel slide" id="nav-items" style={ style }>
+        <div className="col-12 col-sm-12 col-md-2 carousel slide my-1" id="nav-items" style={ style }>
             <ul className="nav flex-column nav-pills carousel-inner" style={ cursor }>
 
                 <li className="nav-item my-1 arrow" style={ background }>

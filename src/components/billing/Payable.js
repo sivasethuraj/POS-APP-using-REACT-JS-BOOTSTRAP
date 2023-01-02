@@ -13,8 +13,7 @@ function Payable ( props ) {
     change = ( parseFloat( tender ) - parseFloat( payable ) ).toFixed( 2 );
     return (
         <div className="col-sm-12 col-md-5"
-            style={ style }
-        >
+            style={ style }>
             <div className="my-1">
                 <input
                     className="form-control"
@@ -35,7 +34,7 @@ function Payable ( props ) {
                     </span>
                 </div>
                 <div className="row my-1 ">
-                    <span className="col-8 text-center">GST Amount  18%</span>
+                    <span className="col-8 text-center">GST Amount </span>
                     <span className="col-4">
                         <input
                             className=" form-control "
@@ -80,8 +79,26 @@ function Payable ( props ) {
                     </span>
                 </div>
                 <div className="row py-3 justify-content-center">
-                    <button className="col-3 btn btn-outline-success text-center btn-normal"
+                    <button className="col-3 btn btn-outline-success text-center"
                         onClick={ () => {
+                            if ( change < 1 ) {
+                                alert( "please enter correct tender amount !" );
+                                return;
+                            }
+                            console.log( props.setPayablePage );
+                            // () => props.setPayablePage
+                            props.setPayablePage( ( prev ) => {
+                                return !prev;
+                            } );
+                            props.setBillingValues( {
+                                amount: 0,
+                                gstAmount: 0,
+                                payable: 0,
+                                tender: 0,
+                                change: 0,
+                            } );
+                            props.setTableRows( [] );
+                            localStorage.clear();
                             alert( "Successfully Paid!" );
                         } }>
                         PAY
