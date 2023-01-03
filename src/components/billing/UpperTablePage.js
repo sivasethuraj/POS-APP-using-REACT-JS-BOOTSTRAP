@@ -71,7 +71,6 @@ function Tl ( props ) {
         setWholeTotalPrice( wholeTotalPrice );
 
         setBillingValues( ( prev ) => {
-            console.log( "gstAmount:", parseFloat( prev.amount * 0.18 ).toFixed( 2 ) )
             return {
                 ...prev,
                 amount: wholeTotalPrice,

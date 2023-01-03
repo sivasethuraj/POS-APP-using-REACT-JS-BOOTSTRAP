@@ -21,8 +21,6 @@ function Billing() {
       return {
         ...prev,
         amount: wholeTotalPrice,
-        gstAmount: prev.amount * 0.18,
-        payable: prev.amount + prev.gstAmount,
       };
     });
   };

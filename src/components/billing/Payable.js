@@ -85,20 +85,20 @@ function Payable ( props ) {
                                 alert( "please enter correct tender amount !" );
                                 return;
                             }
-                            console.log( props.setPayablePage );
-                            // () => props.setPayablePage
-                            props.setPayablePage( ( prev ) => {
+                            const { setPayablePage, setBillingValues, setTableRows, setWholeTotalPrice } = props;
+                            setPayablePage( ( prev ) => {
                                 return !prev;
                             } );
-                            props.setBillingValues( {
+                            setBillingValues( {
                                 amount: 0,
                                 gstAmount: 0,
                                 payable: 0,
                                 tender: 0,
                                 change: 0,
                             } );
-                            props.setTableRows( [] );
+                            setTableRows( [] );
                             localStorage.clear();
+                            setWholeTotalPrice( 0 );
                             alert( "Successfully Paid!" );
                         } }>
                         PAY
