@@ -4,26 +4,26 @@ const heightStyle = {
     minHeight: '70vh',
 }
 
-let tr = [];
-function addRows () {
+// let tr = [];
+// function addRows () {
 
-    for ( const key in localStorage ) {
+//     for ( const key in localStorage ) {
 
-        let sno = 1;
-        const object = JSON.parse( localStorage.getItem( key ) );
+//         let sno = 1;
+//         const object = JSON.parse( localStorage.getItem( key ) );
 
-        if ( localStorage.hasOwnProperty( key ) ) {
-            tr.push(
-                <tr>
-                    <td>{ sno }</td>
-                    <td>{ object.name }</td>
-                    <td>{ object.soldQuantity }</td>
-                    <td>{ ( parseFloat( object.price ) * parseFloat( object.soldQuantity ) ) }</td>
-                </tr> )
-            sno = sno + 1;
-        }
-    }
-}
+//         if ( localStorage.hasOwnProperty( key ) ) {
+//             tr.push(
+//                 <tr>
+//                     <td>{ sno }</td>
+//                     <td>{ object.name }</td>
+//                     <td>{ object.soldQuantity }</td>
+//                     <td>{ ( parseFloat( object.price ) * parseFloat( object.soldQuantity ) ) }</td>
+//                 </tr> )
+//             sno = sno + 1;
+//         }
+//     }
+// }
 
 function SalesReportPage1 () {
     return (
@@ -64,7 +64,7 @@ function SalesReportPage1 () {
                             </tr>
                         </thead>
                         <tbody>
-                            { tr }
+                            { }
                         </tbody>
                     </table>
                 </div>
