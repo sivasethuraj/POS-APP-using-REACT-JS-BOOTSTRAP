@@ -57,7 +57,6 @@ function IIndRow ( props ) {
         }
         console.log( 'validStock', isValid )
     }
-
     const changeTableData = () => {
 
         if ( isValid ) {
@@ -96,6 +95,11 @@ function IIndRow ( props ) {
                     setTableRows( ( prev ) => [ ...prev, { ...newProduct } ] );
                 }
             }
+            setItemid( {
+                iId: 0,
+                iPrice: 0,
+                iQuantity: 0,
+            } );
         } else {
             console.log( "outer" )
             alert( 'out of stock !' );
