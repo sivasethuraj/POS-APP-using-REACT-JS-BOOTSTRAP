@@ -1,31 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+let initialId = 41;
 function Inventory() {
   const [newItem, setNewItem] = useState({
     name: "",
-    id: "",
+    id: initialId,
     price: 0,
     purchaseQuantity: 0,
     sold: 0,
     inStock: 0,
+    date: "",
   });
   const [tableOfItems, setTableOfItems] = useState([]);
+
   const resetValues = () => {
     setNewItem({
       name: "",
-      id: "",
       price: 0,
       purchaseQuantity: 0,
       sold: 0,
       inStock: 0,
     });
   };
+
   const handleTableOfItems = () => {
-    const { name, id, purchaseQuantity, price } = newItem;
+    const { name, purchaseQuantity, price } = newItem;
     if (
       name === "" ||
-      id === "" ||
       purchaseQuantity === "" ||
       purchaseQuantity <= 0 ||
       price === "" ||
@@ -34,18 +36,63 @@ function Inventory() {
       alert("Please Enter All Fields Correctly !");
       return;
     }
+
+    let existingitem = tableOfItems.find((item) => item.name === newItem.name);
+    console.log("existingitem", existingitem);
+
+    if (existingitem) {
+      alert(`${newItem.name} was already existed`);
+      return;
+    }
+    const newTableOfItem = {
+      ...newItem,
+      id: initialId++,
+      date: new Date(),
+    };
+    console.log("newTableOfItem", newTableOfItem);
+    localStorage.setItem(
+      "inventory",
+      JSON.stringify([
+        ...tableOfItems,
+        {
+          ...newTableOfItem,
+        },
+      ])
+    );
     setTableOfItems((prev) => [
       ...prev,
       {
-        ...newItem,
+        ...newTableOfItem,
       },
     ]);
+
     resetValues();
-    console.log(tableOfItems);
   };
+
+  useEffect(() => {
+    console.log("tableOfItems: ", tableOfItems.length, tableOfItems);
+  }, [tableOfItems]);
+
+  useEffect(() => {
+    const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
+    if (newTableOfItem) {
+      setTableOfItems(newTableOfItem);
+    }
+  }, []);
+
   const heightStyle = {
     minHeight: "100vh",
   };
+
+  const deleteItem = (itemId) => {
+    const newTableOfItem = tableOfItems.filter((item) => {
+      return item.id !== itemId;
+    });
+
+    localStorage.setItem("inventory", JSON.stringify(newTableOfItem));
+    setTableOfItems(newTableOfItem);
+  };
+
   return (
     <div className="container" style={heightStyle}>
       {/* modal */}
@@ -78,29 +125,6 @@ function Inventory() {
                       setNewItem({
                         ...newItem,
                         name: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="row my-2">
-                <div className="col-3">
-                  <label htmlFor="id" className="form-label">
-                    Item Id
-                  </label>
-                </div>
-                <div className="col-9">
-                  <input
-                    type="text"
-                    id="id"
-                    autoComplete="off"
-                    className="form-control"
-                    value={newItem.id}
-                    onChange={(e) => {
-                      setNewItem({
-                        ...newItem,
-                        id: e.target.value,
                       });
                     }}
                   />
@@ -176,7 +200,7 @@ function Inventory() {
       {/* modal*/}
       <div>
         <div className="row pt-3">
-          <div className="col-3">
+          <div style={{ position: "absolute", left: "2rem", top: "1rem" }}>
             <Link to="/">
               <i
                 className="fa fa-home text-light bg-primary p-2 border border-dark rounded "
@@ -238,12 +262,20 @@ function Inventory() {
               {tableOfItems.map((tr, index) => {
                 return (
                   <tr key={index}>
-                    <th scope="row">{index}</th>
+                    <td scope="row">{index}</td>
                     <td>{tr.name}</td>
                     <td>{tr.price}</td>
                     <td>{tr.purchaseQuantity}</td>
                     <td>{tr.sold}</td>
                     <td>{tr.inStock}</td>
+                    <td>
+                      <button
+                        className="btn btn-danger py-1"
+                        onClick={() => deleteItem(tr.id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 );
               })}
@@ -258,28 +290,27 @@ export default Inventory;
 
 /* 
 Completed Tasks:
- 
-
-    * Re render the cart screen respectively to the local storage items
     
-    * Set the previous payment values to be empty
+    * design the component for inventory items
+
+    * design the Form Component for adding the inventory items
 
  
 In Progress Task(s);
 
-    * design the component for inventory items
- 
-    * design the Form Component for adding the inventory items
-
-            - Using Bootstrap tables
+   * Id state value remove from form cause it doesn't unique 
+  
+   * Id state value will be dunamically allocated for each and every inventory items
+   
+   * Clear the rerender bugs in Modal in the bootstrap form component
+   * To design responsive ui from non-responsive ui
 
 
 Pending Tasks:
-  
-    
+     
     * design the function for request item
     
     * Dynamically add the table rows contains the
-              - inventory items name,price,quantity,sold,purchased details
+              ~ inventory items name,price,quantity,sold,purchased details
               to table body
  */

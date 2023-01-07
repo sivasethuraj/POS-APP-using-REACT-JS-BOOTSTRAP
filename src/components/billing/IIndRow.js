@@ -1,11 +1,107 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
 function IIndRow ( props ) {
+    const { tableRows, setTableRows } = props;
     const style = {
         height: "auto",
         width: "100%",
     }
+    const [ isValid, setIsValid ] = useState( false );
+    const [ itemId, setItemid ] = useState( {
+        iId: 0,
+        iPrice: 0,
+        iQuantity: 0,
+    } );
+    const specifiedObject = ( userPressedId ) => {
+        const inventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+        if ( inventoryArray ) {
+            const newTableRow = inventoryArray.filter( ( item ) => item.id === userPressedId );
+            if ( newTableRow.length > 0 ) {
+                return newTableRow[ 0 ];
+            }
+        }
+        return false;
+    }
+
+    const handleIdChange = ( userPressedId ) => {
+        const response = specifiedObject( userPressedId );
+        if ( response ) {
+            setItemid( ( prev ) => {
+                return {
+                    ...prev,
+                    iPrice: response.price,
+                }
+            } );
+        } else {
+            setItemid( ( prev ) => {
+                return {
+                    ...prev,
+                    iPrice: 0,
+                }
+            } );
+        }
+
+    }
+    const quantityCheck = ( userQuantity ) => {
+
+        setItemid( ( prev ) => {
+            return {
+                ...prev,
+                iQuantity: userQuantity,
+            }
+        } );
+        const response = specifiedObject( itemId.iId );
+        if ( response ) {
+            response.purchaseQuantity > userQuantity ? setIsValid( true ) : setIsValid( false );
+        }
+        console.log( 'validStock', isValid )
+    }
+
+    const changeTableData = () => {
+
+        if ( isValid ) {
+            const response = specifiedObject( itemId.iId );
+            if ( response ) {
+                console.log( "inner" )
+                const { id, name, price } = response;
+                let newProduct = {};
+                const existingItem = tableRows.find( ( item ) => item.id === itemId.iId );
+                if ( existingItem ) {
+
+                    const newTableRows = tableRows.map( ( item ) => {
+                        if ( item.id === itemId.iId ) {
+                            return {
+                                ...item,
+                                quantity: ( item.quantity + 1 ),
+                                totalPrice: ( ( item.quantity + 1 ) * item.unitPrice ),
+                            }
+                        } else {
+                            if ( item.id ) {
+                                return item;
+                            }
+                        }
+                    } )
+                    console.log( 'newTableRows:', newTableRows );
+                    setTableRows( newTableRows );
+                }
+                else {
+                    newProduct = {
+                        id: id,
+                        name: name,
+                        quantity: itemId.iQuantity,
+                        unitPrice: price,
+                        totalPrice: parseInt( price ) * parseInt( itemId.iQuantity ),
+                    }
+                    setTableRows( ( prev ) => [ ...prev, { ...newProduct } ] );
+                }
+            }
+        } else {
+            console.log( "outer" )
+            alert( 'out of stock !' );
+        }
+    }
+
     return (
         <>
             <div className="row " style={ style }>
@@ -20,21 +116,30 @@ function IIndRow ( props ) {
                         <div className="col-3 col-md-3">
                             <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemquantity">
                                 Quantity</label>
-
                         </div>
                     </div>
                     <div className="row text-center">
                         <div className="col-3 col-md-3">
-                            <input className="form-control" type="text" id="extraitemname" />
+                            <input className="form-control" type="number" value={ itemId.iId } onChange={ ( e ) => {
+                                handleIdChange( parseInt( e.target.value ) );
+                                setItemid( ( prev ) => {
+                                    return {
+                                        ...prev,
+                                        iId: parseInt( e.target.value ) || 0,
+                                    };
+                                } )
+                            } } />
                         </div>
                         <div className="col-3 col-md-3">
-                            <input className="form-control" type="number" id="itemprice" />
+                            <input className="form-control" type="number" readOnly id="itemprice" value={ itemId.iPrice } />
                         </div>
                         <div className="col-3 col-md-3">
-                            <input className="form-control" type="number" id="itemquantity" />
+                            <input className="form-control" type="number" id="itemquantity" value={ itemId.iQuantity }
+                                onChange={ ( e ) => quantityCheck( parseInt( e.target.value ) ) } />
                         </div>
                         <div className="col">
-                            <button className="btn btn-primary" id="addbtn">Add</button>
+                            <button className="btn btn-primary" id="addbtn"
+                                onClick={ changeTableData }>Add</button>
                         </div>
                     </div>
                 </div>

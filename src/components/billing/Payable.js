@@ -86,9 +86,6 @@ function Payable ( props ) {
                                 return;
                             }
                             const { setPayablePage, setBillingValues, setTableRows, setWholeTotalPrice } = props;
-                            setPayablePage( ( prev ) => {
-                                return !prev;
-                            } );
                             setBillingValues( {
                                 amount: 0,
                                 gstAmount: 0,
@@ -96,8 +93,10 @@ function Payable ( props ) {
                                 tender: 0,
                                 change: 0,
                             } );
+                            setPayablePage( ( prev ) => {
+                                return !prev;
+                            } );
                             setTableRows( [] );
-                            localStorage.clear();
                             setWholeTotalPrice( 0 );
                             alert( "Successfully Paid!" );
                         } }>

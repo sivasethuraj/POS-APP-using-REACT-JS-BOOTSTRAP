@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./hover.css"
 
 function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTotalPrice, setBillingValues } ) {
@@ -12,6 +12,19 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
     const tdWidth = {
         width: "10em",
     }
+    useEffect( () => {
+        let totalPrice = 0;
+        for ( const i in tableRows ) {
+            totalPrice += tableRows[ i ].totalPrice;
+        }
+        setWholeTotalPrice( totalPrice );
+        // setBillingValues( ( prev ) => {
+        //     return {
+        //         ...prev,
+        //         amount: totalPrice,
+        //     }
+        // } );
+    } )
 
     return (
         <div className="col-sm-12 col-md-5 overflow-auto" id="tablepage" style={ style }>
@@ -34,8 +47,8 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
                                 return <Tl
                                     key={ index }
                                     item={ item }
+                                    tableRows={ tableRows }
                                     setTableRows={ setTableRows }
-                                    setWholeTotalPrice={ setWholeTotalPrice }
                                     setBillingValues={ setBillingValues } />
                             } )
                         }
@@ -53,49 +66,44 @@ function Tl ( props ) {
 
     const { id, name, quantity, unitPrice, totalPrice } = props.item;
 
-    const updaterFunction = () => {
-        let newTableRow = [];
-        let wholeTotalPrice = 0;
+    // const updaterFunction = () => {
+    //     let newTableRow = [];
+    //     let wholeTotalPrice = 0;
 
-        for ( const key in localStorage ) {
+    //     for ( const key in localStorage ) {
 
-            if ( localStorage.hasOwnProperty( key ) ) {
+    //         if ( localStorage.hasOwnProperty( key ) ) {
 
-                let object = JSON.parse( localStorage.getItem( key ) );
-                newTableRow.unshift( object );
-                wholeTotalPrice += object.totalPrice;
-            }
-        }
-        const { setTableRows, setWholeTotalPrice, setBillingValues } = props;
-        setTableRows( () => newTableRow );
-        setWholeTotalPrice( wholeTotalPrice );
+    //             let object = JSON.parse( localStorage.getItem( key ) );
+    //             newTableRow.unshift( object );
+    //             wholeTotalPrice += object.totalPrice;
+    //         }
+    //     }
 
-        setBillingValues( ( prev ) => {
-            return {
-                ...prev,
-                amount: wholeTotalPrice,
-            }
-        } );
+    //     setTableRows( () => newTableRow );
+    //     setWholeTotalPrice( wholeTotalPrice );
 
 
-    };
 
-    const removeItem = ( e ) => {
-        let id = e.target.id;
+
+    // };
+
+    const removeItem = ( clickedItemId ) => {
+        const { tableRows, setTableRows } = props;
         localStorage.removeItem( id );
-        updaterFunction();
+        setTableRows( tableRows.filter( ( item ) => item.id !== clickedItemId ) )
         console.log( "removed id: ", id, "successfully" );
     }
     return (
         <tr>
             <td>{ name }</td>
-            <td >{ quantity }</td>
+            <td>{ quantity }</td>
             <td className="text-center">$ { unitPrice }</td>
             <td className="text-center">$ { totalPrice }</td>
             <td
                 id={ id }
                 className="text-center"
-                onClick={ ( e ) => removeItem( e ) }
+                onClick={ () => removeItem( id ) }
             >
                 <i className="fa-solid fa-xmark" id={ id }></i>
             </td>

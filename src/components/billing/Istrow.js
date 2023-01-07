@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { UpperTablePage } from "./UpperTablePage";
 import { NavigationMenu } from "./NavigationMenu";
 import { GalleryPage } from './GalleryPage';
@@ -9,11 +9,14 @@ import data from "../data";
 function Istrow ( props ) {
 
     const [ items, setItems ] = useState( data );
-    const [ tableRows, setTableRows ] = useState( [] );
+    const { tableRows, setTableRows } = props;
     const { wholeTotalPrice, setWholeTotalPrice } = props;
     const style = {
         height: "maxContent",
     }
+    useEffect( () => {
+        console.log( 'tableRows:', tableRows )
+    }, [ tableRows ] );
     return (
         <div>
             <div className='row ' style={ style }>
@@ -39,6 +42,7 @@ function Istrow ( props ) {
                 />
                 <GalleryPage
                     items={ items }
+                    tableRows={ tableRows }
                     setTableRows={ setTableRows }
                     setWholeTotalPrice={ setWholeTotalPrice }
                 />

@@ -3,6 +3,7 @@ import { IIndRow } from "./IIndRow";
 import { Istrow } from "./Istrow";
 
 function Billing() {
+  const [tableRows, setTableRows] = useState([]);
   const [payablePage, setPayablePage] = useState(false);
   const [billingValues, setBillingValues] = useState({
     amount: 0,
@@ -38,10 +39,14 @@ function Billing() {
         wholeTotalPrice={wholeTotalPrice}
         setWholeTotalPrice={setWholeTotalPrice}
         setPayablePage={setPayablePage}
+        tableRows={tableRows}
+        setTableRows={setTableRows}
       />
       <IIndRow
         setPayablePage={handlePayablePage}
         setBillingValues={setBillingValues}
+        tableRows={tableRows}
+        setTableRows={setTableRows}
       />
     </div>
   );
