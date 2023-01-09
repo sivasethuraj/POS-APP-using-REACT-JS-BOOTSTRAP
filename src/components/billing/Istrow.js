@@ -28,6 +28,7 @@ function Istrow ( props ) {
                             setPayablePage={ props.setPayablePage }
                             setTableRows={ setTableRows }
                             setWholeTotalPrice={ setWholeTotalPrice }
+                            tableRows={ tableRows }
                         />
                         : <UpperTablePage
                             tableRows={ tableRows }

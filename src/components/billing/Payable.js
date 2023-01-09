@@ -1,11 +1,70 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { InventoryContext } from "../../App";
+
 function Payable ( props ) {
 
+    const { tableOfItems, setTableOfItems } = useContext( InventoryContext );
     const style = {
         height: "80vh",
         overflow: "auto",
     }
 
+    const handlePay = () => {
+        if ( change < 1 ) {
+            alert( "please enter correct tender amount !" );
+            return;
+        }
+        const { setPayablePage, setBillingValues, setTableRows, setWholeTotalPrice, tableRows } = props;
+        setBillingValues( {
+            amount: 0,
+            gstAmount: 0,
+            payable: 0,
+            tender: 0,
+            change: 0,
+        } );
+
+
+        tableRows.map( ( tableItem ) => {
+            tableOfItems.map( ( inventoryItems ) => {
+                if ( tableItem.id === inventoryItems.id ) {
+
+                    let sold, stock = 0;
+                    sold = tableItem.quantity + parseInt( inventoryItems.sold );
+                    stock = inventoryItems.purchaseQuantity - sold;
+                    const newInventoryItem = {
+                        ...inventoryItems,
+                        sold: sold,
+                        inStock: stock,
+                    };
+
+                    const newTableOfItem = tableOfItems.filter( ( item ) => item.id !== inventoryItems.id );
+
+                    localStorage.setItem(
+                        "inventory",
+                        JSON.stringify( [
+                            ...newTableOfItem,
+                            {
+                                ...newInventoryItem,
+                            },
+                        ] )
+                    );
+                    setTableOfItems( [
+                        ...newTableOfItem,
+                        {
+                            ...newInventoryItem,
+                        },
+                    ] );
+                }
+            } );
+        } );
+        setPayablePage( ( prev ) => {
+            return !prev;
+        } );
+        setTableRows( [] );
+        setWholeTotalPrice( 0 );
+        alert( "Successfully Paid!" );
+
+    }
     let { amount, gstAmount, payable, tender, change } = props.billingValues;
 
     gstAmount = parseFloat( amount * 0.18 ).toFixed( 2 );
@@ -80,26 +139,8 @@ function Payable ( props ) {
                 </div>
                 <div className="row py-3 justify-content-center">
                     <button className="col-3 btn btn-outline-success text-center"
-                        onClick={ () => {
-                            if ( change < 1 ) {
-                                alert( "please enter correct tender amount !" );
-                                return;
-                            }
-                            const { setPayablePage, setBillingValues, setTableRows, setWholeTotalPrice } = props;
-                            setBillingValues( {
-                                amount: 0,
-                                gstAmount: 0,
-                                payable: 0,
-                                tender: 0,
-                                change: 0,
-                            } );
-                            setPayablePage( ( prev ) => {
-                                return !prev;
-                            } );
-                            setTableRows( [] );
-                            setWholeTotalPrice( 0 );
-                            alert( "Successfully Paid!" );
-                        } }>
+                        onClick={ () => handlePay()
+                        }>
                         PAY
                     </button>
                 </div>
