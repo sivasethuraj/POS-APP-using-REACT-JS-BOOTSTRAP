@@ -76,7 +76,7 @@ function ImgTag ( props ) {
 }
 
 export default ImgTag;
-{
+// {
     // import React, { useState, useEffect } from 'react'
 
     // function ImgTag ( props ) {
@@ -153,4 +153,4 @@ export default ImgTag;
     // }
 
     // export default ImgTag;
-}
+// }

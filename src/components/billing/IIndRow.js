@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
+
 function IIndRow ( props ) {
+
     const { tableRows, setTableRows } = props;
     const style = {
         height: "auto",
@@ -15,8 +17,10 @@ function IIndRow ( props ) {
     } );
     const specifiedObject = ( userPressedId ) => {
         const inventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+
         if ( inventoryArray ) {
             const newTableRow = inventoryArray.filter( ( item ) => item.id === userPressedId );
+
             if ( newTableRow.length > 0 ) {
                 return newTableRow[ 0 ];
             }
@@ -26,6 +30,7 @@ function IIndRow ( props ) {
 
     const handleIdChange = ( userPressedId ) => {
         const response = specifiedObject( userPressedId );
+
         if ( response ) {
             setItemid( ( prev ) => {
                 return {
@@ -52,6 +57,7 @@ function IIndRow ( props ) {
             }
         } );
         const response = specifiedObject( itemId.iId );
+
         if ( response ) {
             response.purchaseQuantity > userQuantity ? setIsValid( true ) : setIsValid( false );
         }
@@ -61,14 +67,16 @@ function IIndRow ( props ) {
 
         if ( isValid ) {
             const response = specifiedObject( itemId.iId );
+
             if ( response ) {
                 console.log( "inner" )
                 const { id, name, price } = response;
                 let newProduct = {};
                 const existingItem = tableRows.find( ( item ) => item.id === itemId.iId );
-                if ( existingItem ) {
 
+                if ( existingItem ) {
                     const newTableRows = tableRows.map( ( item ) => {
+
                         if ( item.id === itemId.iId ) {
                             return {
                                 ...item,
@@ -102,6 +110,11 @@ function IIndRow ( props ) {
             } );
         } else {
             console.log( "outer" )
+            setItemid( {
+                iId: 0,
+                iPrice: 0,
+                iQuantity: 0,
+            } );
             alert( 'out of stock !' );
         }
     }

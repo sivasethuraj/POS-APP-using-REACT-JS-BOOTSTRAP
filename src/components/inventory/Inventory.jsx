@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { InventoryContext } from "../../App";
 
 let initialId = 41;
 function Inventory() {
@@ -12,7 +13,7 @@ function Inventory() {
     inStock: 0,
     date: "",
   });
-  const [tableOfItems, setTableOfItems] = useState([]);
+  const { tableOfItems, setTableOfItems } = useContext(InventoryContext);
 
   const resetValues = () => {
     setNewItem({
@@ -48,6 +49,7 @@ function Inventory() {
       ...newItem,
       id: initialId++,
       date: new Date(),
+      inStock: newItem.purchaseQuantity,
     };
     console.log("newTableOfItem", newTableOfItem);
     localStorage.setItem(
@@ -262,7 +264,7 @@ function Inventory() {
               {tableOfItems.map((tr, index) => {
                 return (
                   <tr key={index}>
-                    <td scope="row">{index}</td>
+                    <th scope="row">{index}</th>
                     <td>{tr.name}</td>
                     <td>{tr.price}</td>
                     <td>{tr.purchaseQuantity}</td>
