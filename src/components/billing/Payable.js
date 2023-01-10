@@ -23,11 +23,12 @@ function Payable ( props ) {
             change: 0,
         } );
 
-
+        console.log( tableRows, tableOfItems );
         tableRows.map( ( tableItem ) => {
             tableOfItems.map( ( inventoryItems ) => {
-                if ( tableItem.id === inventoryItems.id ) {
 
+                if ( tableItem.id === inventoryItems.id ) {
+                    console.log( "id matched", tableItem.id, ' ', inventoryItems.id )
                     let sold, stock = 0;
                     sold = tableItem.quantity + parseInt( inventoryItems.sold );
                     stock = inventoryItems.purchaseQuantity - sold;
@@ -37,7 +38,12 @@ function Payable ( props ) {
                         inStock: stock,
                     };
 
-                    const newTableOfItem = tableOfItems.filter( ( item ) => item.id !== inventoryItems.id );
+                    let localStorageInventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+
+                    const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
+                    console.log( 'newInventoryItem ', newInventoryItem );
+                    console.log( 'newTableOfItem ', newTableOfItem );
+
 
                     localStorage.setItem(
                         "inventory",
@@ -54,6 +60,8 @@ function Payable ( props ) {
                             ...newInventoryItem,
                         },
                     ] );
+                } else {
+                    console.log( "id didnt matched" )
                 }
             } );
         } );
