@@ -1,7 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { InventoryContext } from "../../App";
 
 function Payable ( props ) {
+
+    useEffect( () => {
+        const newTableOfItem = JSON.parse( localStorage.getItem( "inventory" ) );
+        if ( newTableOfItem.length > 0 ) {
+            setTableOfItems( newTableOfItem );
+        }
+    }, [] );
 
     const { tableOfItems, setTableOfItems } = useContext( InventoryContext );
     const style = {
@@ -24,47 +31,50 @@ function Payable ( props ) {
         } );
 
         console.log( tableRows, tableOfItems );
-        tableRows.map( ( tableItem ) => {
-            tableOfItems.map( ( inventoryItems ) => {
+        if ( tableOfItems.length > 0 ) {
 
-                if ( tableItem.id === inventoryItems.id ) {
-                    console.log( "id matched", tableItem.id, ' ', inventoryItems.id )
-                    let sold, stock = 0;
-                    sold = tableItem.quantity + parseInt( inventoryItems.sold );
-                    stock = inventoryItems.purchaseQuantity - sold;
-                    const newInventoryItem = {
-                        ...inventoryItems,
-                        sold: sold,
-                        inStock: stock,
-                    };
+            tableRows.map( ( tableItem ) => {
+                tableOfItems.map( ( inventoryItems ) => {
 
-                    let localStorageInventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+                    if ( tableItem.id === inventoryItems.id ) {
+                        console.log( "id matched", tableItem.id, ' ', inventoryItems.id )
+                        let sold, stock = 0;
+                        sold = tableItem.quantity + parseInt( inventoryItems.sold );
+                        stock = inventoryItems.purchaseQuantity - sold;
+                        const newInventoryItem = {
+                            ...inventoryItems,
+                            sold: sold,
+                            inStock: stock,
+                        };
 
-                    const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
-                    console.log( 'newInventoryItem ', newInventoryItem );
-                    console.log( 'newTableOfItem ', newTableOfItem );
+                        let localStorageInventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+
+                        const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
+                        console.log( 'newInventoryItem ', newInventoryItem );
+                        console.log( 'newTableOfItem ', newTableOfItem );
 
 
-                    localStorage.setItem(
-                        "inventory",
-                        JSON.stringify( [
+                        localStorage.setItem(
+                            "inventory",
+                            JSON.stringify( [
+                                ...newTableOfItem,
+                                {
+                                    ...newInventoryItem,
+                                },
+                            ] )
+                        );
+                        setTableOfItems( [
                             ...newTableOfItem,
                             {
                                 ...newInventoryItem,
                             },
-                        ] )
-                    );
-                    setTableOfItems( [
-                        ...newTableOfItem,
-                        {
-                            ...newInventoryItem,
-                        },
-                    ] );
-                } else {
-                    console.log( "id didnt matched" )
-                }
+                        ] );
+                    } else {
+                        console.log( "id didnt matched" )
+                    }
+                } );
             } );
-        } );
+        }
         setPayablePage( ( prev ) => {
             return !prev;
         } );
