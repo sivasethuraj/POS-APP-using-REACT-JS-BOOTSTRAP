@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { InventoryContext } from "../../App";
 
 let initialId = 41;
+
 function Inventory() {
   const [newItem, setNewItem] = useState({
     name: "",
@@ -71,13 +72,16 @@ function Inventory() {
     resetValues();
   };
 
-  useEffect(() => {
-    console.log("tableOfItems: ", tableOfItems.length, tableOfItems);
-  }, [tableOfItems]);
+  // useEffect(() => {
+  //   console.log("tableOfItems: ", tableOfItems.length, tableOfItems);
+  // }, [tableOfItems]);
 
   useEffect(() => {
     const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
-    if (newTableOfItem) {
+    if (newTableOfItem.length > 0) {
+      initialId = newTableOfItem[newTableOfItem.length - 1].id + 1;
+      // console.log(initialId, "id");
+
       setTableOfItems(newTableOfItem);
     }
   }, []);

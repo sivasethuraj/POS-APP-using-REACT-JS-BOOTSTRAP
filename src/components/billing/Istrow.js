@@ -15,7 +15,7 @@ function Istrow ( props ) {
         height: "maxContent",
     }
     useEffect( () => {
-        console.log( 'tableRows:', tableRows )
+        // console.log( 'tableRows:', tableRows )
     }, [ tableRows ] );
     return (
         <div>

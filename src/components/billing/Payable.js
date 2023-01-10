@@ -1,7 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { InventoryContext } from "../../App";
 
 function Payable ( props ) {
+
+    useEffect( () => {
+        const newTableOfItem = JSON.parse( localStorage.getItem( "inventory" ) );
+        if ( newTableOfItem.length > 0 ) {
+            setTableOfItems( newTableOfItem );
+        }
+    }, [] );
 
     const { tableOfItems, setTableOfItems } = useContext( InventoryContext );
     const style = {
@@ -23,40 +30,51 @@ function Payable ( props ) {
             change: 0,
         } );
 
+        console.log( tableRows, tableOfItems );
+        if ( tableOfItems.length > 0 ) {
 
-        tableRows.map( ( tableItem ) => {
-            tableOfItems.map( ( inventoryItems ) => {
-                if ( tableItem.id === inventoryItems.id ) {
+            tableRows.map( ( tableItem ) => {
+                tableOfItems.map( ( inventoryItems ) => {
 
-                    let sold, stock = 0;
-                    sold = tableItem.quantity + parseInt( inventoryItems.sold );
-                    stock = inventoryItems.purchaseQuantity - sold;
-                    const newInventoryItem = {
-                        ...inventoryItems,
-                        sold: sold,
-                        inStock: stock,
-                    };
+                    if ( tableItem.id === inventoryItems.id ) {
+                        console.log( "id matched", tableItem.id, ' ', inventoryItems.id )
+                        let sold, stock = 0;
+                        sold = tableItem.quantity + parseInt( inventoryItems.sold );
+                        stock = inventoryItems.purchaseQuantity - sold;
+                        const newInventoryItem = {
+                            ...inventoryItems,
+                            sold: sold,
+                            inStock: stock,
+                        };
 
-                    const newTableOfItem = tableOfItems.filter( ( item ) => item.id !== inventoryItems.id );
+                        let localStorageInventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
 
-                    localStorage.setItem(
-                        "inventory",
-                        JSON.stringify( [
+                        const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
+                        console.log( 'newInventoryItem ', newInventoryItem );
+                        console.log( 'newTableOfItem ', newTableOfItem );
+
+
+                        localStorage.setItem(
+                            "inventory",
+                            JSON.stringify( [
+                                ...newTableOfItem,
+                                {
+                                    ...newInventoryItem,
+                                },
+                            ] )
+                        );
+                        setTableOfItems( [
                             ...newTableOfItem,
                             {
                                 ...newInventoryItem,
                             },
-                        ] )
-                    );
-                    setTableOfItems( [
-                        ...newTableOfItem,
-                        {
-                            ...newInventoryItem,
-                        },
-                    ] );
-                }
+                        ] );
+                    } else {
+                        console.log( "id didnt matched" )
+                    }
+                } );
             } );
-        } );
+        }
         setPayablePage( ( prev ) => {
             return !prev;
         } );

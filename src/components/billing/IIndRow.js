@@ -61,7 +61,7 @@ function IIndRow ( props ) {
         if ( response ) {
             response.purchaseQuantity > userQuantity ? setIsValid( true ) : setIsValid( false );
         }
-        console.log( 'validStock', isValid )
+        // console.log( 'validStock', isValid )
     }
     const changeTableData = () => {
 
@@ -69,7 +69,7 @@ function IIndRow ( props ) {
             const response = specifiedObject( itemId.iId );
 
             if ( response ) {
-                console.log( "inner" )
+                // console.log( "inner" )
                 const { id, name, price } = response;
                 let newProduct = {};
                 const existingItem = tableRows.find( ( item ) => item.id === itemId.iId );
@@ -109,7 +109,7 @@ function IIndRow ( props ) {
                 iQuantity: 0,
             } );
         } else {
-            console.log( "outer" )
+            // console.log( "outer" )
             setItemid( {
                 iId: 0,
                 iPrice: 0,
