@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
 
@@ -32,6 +32,7 @@ function IIndRow ( props ) {
         const response = specifiedObject( userPressedId );
 
         if ( response ) {
+            console.log( 'valid id' );
             setItemid( ( prev ) => {
                 return {
                     ...prev,
@@ -39,6 +40,7 @@ function IIndRow ( props ) {
                 }
             } );
         } else {
+            alert( 'invalid id' );
             setItemid( ( prev ) => {
                 return {
                     ...prev,
@@ -59,7 +61,7 @@ function IIndRow ( props ) {
         const response = specifiedObject( itemId.iId );
 
         if ( response ) {
-            response.purchaseQuantity > userQuantity ? setIsValid( true ) : setIsValid( false );
+            response.inStock > userQuantity ? setIsValid( true ) : setIsValid( false );
         }
         // console.log( 'validStock', isValid )
     }
@@ -118,11 +120,28 @@ function IIndRow ( props ) {
             alert( 'out of stock !' );
         }
     }
+    let pointer = useRef();
+
+    const handleCalculatorValues = ( ref, value ) => {
+        if ( !ref ) return;
+        if ( ref === "id" ) {
+            handleIdChange( parseInt( value ) );
+            setItemid( ( prev ) => {
+                return {
+                    ...prev,
+                    iId: parseInt( prev.iId + value ),
+                };
+            } );
+        }
+        else if ( ref === "quantity" ) {
+            quantityCheck( parseInt( itemId.iQuantity + value ) )
+        }
+    }
 
     return (
         <>
             <div className="row " style={ style }>
-                <div className="col-12 col-md-5 col-sm-12 ps-4 my-3">
+                <div className="col-12 col-md-5 col-sm-12 ps-4 mt-3">
                     <div className="row text-center ">
                         <div className="col-3 col-md-3">
                             <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Id</label>
@@ -145,26 +164,93 @@ function IIndRow ( props ) {
                                         iId: parseInt( e.target.value ) || 0,
                                     };
                                 } )
-                            } } />
+                            } }
+                                onFocus={ () => pointer.current = 'id' } />
                         </div>
                         <div className="col-3 col-md-3">
                             <input className="form-control" type="number" readOnly id="itemprice" value={ itemId.iPrice } />
                         </div>
                         <div className="col-3 col-md-3">
                             <input className="form-control" type="number" id="itemquantity" value={ itemId.iQuantity }
-                                onChange={ ( e ) => quantityCheck( parseInt( e.target.value ) ) } />
+                                onChange={ ( e ) => {
+                                    quantityCheck( parseInt( e.target.value ) )
+                                } }
+                                onFocus={ () => pointer.current = 'quantity' }
+                            />
                         </div>
                         <div className="col">
                             <button className="btn btn-primary" id="addbtn"
                                 onClick={ changeTableData }>Add</button>
                         </div>
                     </div>
+                    <div className="row d-flex p-2">
+                        <div className="col ms-5">
+                            <div className="row mb-1">
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '7' ) }>7</button>
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '8' ) }>8</button>
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '9' ) }>9</button>
+                            </div>
+                            <div className="row mb-1">
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '4' ) }>4</button>
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '5' ) }>5</button>
+                                <button className='btn btn-primary col-2 mx-1'
+                                    onClick={ () => handleCalculatorValues( pointer.current, '6' ) }>6</button>
+                            </div>
+                            <div className="row mb-1">
+                                <button className='btn btn-primary col-2 mx-1' onClick={ () => handleCalculatorValues( pointer.current, '1' ) }>1</button>
+                                <button className='btn btn-primary col-2 mx-1' onClick={ () => handleCalculatorValues( pointer.current, '2' ) }>2</button>
+                                <button className='btn btn-primary col-2 mx-1' onClick={ () => handleCalculatorValues( pointer.current, '3' ) }>3</button>
+                            </div>
+                            <div className="row">
+                                <button className='btn btn-primary col-2 mx-1' onClick={ () => handleCalculatorValues( pointer.current, '0' ) }>0</button>
+                                <button className='btn btn-primary col-2 mx-1'>.</button>
+                                <button className='btn btn-primary col-2 mx-1'>-</button>
+                            </div>
+                        </div>
+                        <div className='col-6'>
+                            <div className="row">
+                                <button className="btn btn-primary m-1 py-4 px-2 text-center col-6" onClick={ () => {
+                                    setItemid( {
+                                        iId: 0,
+                                        iPrice: 0,
+                                        iQuantity: 0,
+                                    } )
+                                } }>AC</button>
+                            </div>
+                            <div className="row">
+                                <button className="btn btn-primary m-1 py-4 px-2 text-center col-6" onClick={ () => {
+
+                                    if ( pointer && pointer.current === 'id' ) {
+                                        setItemid( ( prev ) => {
+                                            return {
+                                                ...prev,
+                                                iId: 0,
+                                            }
+                                        } )
+                                    }
+                                    if ( pointer && pointer.current === 'quantity' ) {
+                                        setItemid( ( prev ) => {
+                                            return {
+                                                ...prev,
+                                                iQuantity: 0,
+                                            }
+                                        } )
+                                    }
+                                } }>Clear</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="col-12 col-md-7 col-sm-12 my-3">
-                    <div className="col-12 col-sm-12 d-flex">
+                <div className="col-12 col-md-7 col-sm-12 mt-5 p-0">
+                    <div className="col-12 col-sm-12 d-flex mt-3">
                         <div className="d-flex flex-column">
                             <Button
-                                className="newbill  py-3"
+                                className="newbill py-3"
                                 name="New Bill"
                                 height="3"
                                 bg="bg-warning"
@@ -228,6 +314,17 @@ function IIndRow ( props ) {
                                 name="Print"
                                 height="3"
                                 bg="bg-success"
+                                onClick={ () => {
+                                    if ( tableRows.length > 0 ) {
+                                        const printContents = document.getElementById( "tablepage" ).innerHTML;
+                                        const originalContents = document.body.innerHTML;
+                                        document.body.innerHTML = printContents;
+                                        window.print();
+                                        document.body.innerHTML = originalContents;
+                                    } else {
+                                        alert( 'add items for billing !' );
+                                    }
+                                } }
                             />
                         </div>
                         <div>
@@ -247,7 +344,7 @@ function IIndRow ( props ) {
 
 
                     </div>
-                    <div className="col-12 col-md-6 col-sm-12 d-flex " id='billrow'>
+                    <div className="col-12 col-md-6 col-sm-12 d-flex" id='billrow'>
                         <Button
                             className="bill"
                             name='Bill'
@@ -293,7 +390,7 @@ function IIndRow ( props ) {
                                 bg="bg-success"
                             />
                             <Button
-                                className="restore py-2 px-4"
+                                className="restore py-0 px-4"
                                 name="Restore"
                                 height="3"
                                 bg="bg-success"
