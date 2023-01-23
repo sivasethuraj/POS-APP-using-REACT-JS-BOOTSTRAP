@@ -6,7 +6,7 @@ import ItemRequestPage from "./components/itemrequest/ItemRequestPage";
 import MainMenuPage from './components/mainmenupage/MainMenuPage';
 import Billing from './components/billing/Billing'
 import Inventory from './components/inventory/Inventory'
-import SalesReportPage1 from './components/salesreport/SalesReportPage1'
+import SalesReportPage1 from './components/salesreport/SalesReportPage1.jsx'
 
 
 export const InventoryContext = createContext();

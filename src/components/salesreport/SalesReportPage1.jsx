@@ -1,108 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { InventoryContext } from "../../App";
 
-let initialId = 41;
-
-function Inventory() {
+function SalesReportPage1() {
   const [showDateFilter, setShowDateFilter] = useState(false);
   const [filterType, setFilterType] = useState("select");
   const [customDateValue, setCustomDateValues] = useState({
     from: "",
     to: "",
   });
-  const [newItem, setNewItem] = useState({
-    name: "",
-    id: initialId,
-    price: 0,
-    purchaseQuantity: 0,
-    sold: 0,
-    inStock: 0,
-    date: "",
-  });
-  let { tableOfItems, setTableOfItems } = useContext(InventoryContext);
+
+  let [tableOfItems, setTableOfItems] = useState([
+    ...JSON.parse(localStorage.getItem("salesReport")),
+  ]);
 
   const validTableOfItemArray = () => {
-    const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
+    const newTableOfItem = JSON.parse(localStorage.getItem("salesReport"));
     tableOfItems = [...newTableOfItem];
-  };
-  const resetValues = () => {
-    setNewItem({
-      name: "",
-      price: 0,
-      purchaseQuantity: 0,
-      sold: 0,
-      inStock: 0,
-    });
-  };
-
-  const handleTableOfItems = () => {
-    const { name, purchaseQuantity, price } = newItem;
-    if (
-      name === "" ||
-      purchaseQuantity === "" ||
-      purchaseQuantity <= 0 ||
-      price === "" ||
-      price <= 0
-    ) {
-      alert("Please Enter All Fields Correctly !");
-      return;
-    }
-    validTableOfItemArray();
-    let existingitem = tableOfItems.find((item) => item.name === newItem.name);
-    // console.log("existingitem", existingitem);
-
-    if (existingitem) {
-      alert(`${newItem.name} was already existed`);
-      return;
-    }
-    const newTableOfItem = {
-      ...newItem,
-      id: initialId++,
-      date: new Date(),
-      inStock: newItem.purchaseQuantity,
-    };
-    // console.log("newTableOfItem", newTableOfItem);
-    localStorage.setItem(
-      "inventory",
-      JSON.stringify([
-        ...tableOfItems,
-        {
-          ...newTableOfItem,
-        },
-      ])
-    );
-    setTableOfItems((prev) => [
-      ...prev,
-      {
-        ...newTableOfItem,
-      },
-    ]);
-
-    resetValues();
-    setFilterType("select");
   };
 
   useEffect(() => {
-    const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
-    if (newTableOfItem && newTableOfItem.length > 0) {
-      initialId = newTableOfItem[newTableOfItem.length - 1].id + 1;
-      setTableOfItems(newTableOfItem);
-    }
+    validTableOfItemArray();
   }, []);
 
   const heightStyle = {
     minHeight: "100vh",
-  };
-
-  const deleteItem = (itemId) => {
-    validTableOfItemArray();
-    const newTableOfItem = tableOfItems.filter((item) => {
-      return item.id !== itemId;
-    });
-
-    localStorage.setItem("inventory", JSON.stringify(newTableOfItem));
-    setTableOfItems(newTableOfItem);
   };
 
   const filterLogic = () => {
@@ -271,109 +192,6 @@ function Inventory() {
 
   return (
     <div className="container" style={heightStyle}>
-      {/* modal */}
-      <div
-        className="modal fade"
-        id="staticBackdrop"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        tabIndex={-1}
-        aria-labelledby="staticBackdropLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-body">
-              <div className="row my-2">
-                <div className="col-3">
-                  <label htmlFor="name" className="form-label">
-                    Item Name
-                  </label>
-                </div>
-                <div className="col-9">
-                  <input
-                    type="text"
-                    id="name"
-                    autoComplete="off"
-                    className="form-control"
-                    value={newItem.name}
-                    onChange={(e) => {
-                      setNewItem({
-                        ...newItem,
-                        name: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="row my-2">
-                <div className="col-3">
-                  <label htmlFor="price" className="form-label">
-                    Price
-                  </label>
-                </div>
-                <div className="col-9">
-                  <input
-                    type="number"
-                    autoComplete="off"
-                    id="price"
-                    className="form-control"
-                    value={parseInt(newItem.price)}
-                    onChange={(e) => {
-                      setNewItem({
-                        ...newItem,
-                        price: parseInt(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="row my-2">
-                <div className="col-3">
-                  <label htmlFor="address" className="form-label">
-                    Purchase Quantity
-                  </label>
-                </div>
-                <div className="col-9">
-                  <input
-                    type="number"
-                    autoComplete="off"
-                    id="address"
-                    className="form-control"
-                    value={parseInt(newItem.purchaseQuantity)}
-                    onChange={(e) => {
-                      setNewItem({
-                        ...newItem,
-                        purchaseQuantity: parseInt(e.target.value),
-                      });
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="modal-footer d-flex justify-content-center">
-              <button
-                type="button"
-                className="btn btn-success"
-                onClick={handleTableOfItems}
-              >
-                Add
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger"
-                data-bs-dismiss="modal"
-                onClick={resetValues}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* modal*/}
       <div>
         <div className="row pt-3">
           <div style={{ position: "absolute", left: "2rem", top: "1rem" }}>
@@ -386,7 +204,7 @@ function Inventory() {
             </Link>
           </div>
           <div className="col text-center">
-            <h3>Inventory</h3>
+            <h3>Sales Report</h3>
           </div>
         </div>
         <div className="row mt-3 justify-content-center">
@@ -443,16 +261,6 @@ function Inventory() {
               </div>
             </>
           )}
-
-          <div className="col-3">
-            <button
-              className="btn btn-success"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              Add Items
-            </button>
-          </div>
         </div>
 
         <div className="row mt-3">
@@ -461,33 +269,22 @@ function Inventory() {
               <tr>
                 <th scope="col">S.No</th>
                 <th scope="col">Item Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Purchase</th>
-                <th scope="col">Sold</th>
-                <th scope="col">In-Stock</th>
+                <th scope="col">Sold Quantity</th>
+                <th scope="col">Total Price</th>
               </tr>
             </thead>
             <tbody>
-              {tableOfItems.map((tr, index) => {
-                return (
-                  <tr key={index}>
-                    <th scope="row">{index}</th>
-                    <td>{tr.name}</td>
-                    <td>{tr.price}</td>
-                    <td>{tr.purchaseQuantity}</td>
-                    <td>{tr.sold}</td>
-                    <td>{tr.inStock}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger py-1"
-                        onClick={() => deleteItem(tr.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {tableOfItems &&
+                tableOfItems.map((tr, index) => {
+                  return (
+                    <tr key={index}>
+                      <th scope="row">{index}</th>
+                      <td>{tr.name}</td>
+                      <td>{tr.soldQuantity}</td>
+                      <td>$ {tr.totalPrice}</td>
+                    </tr>
+                  );
+                })}
             </tbody>
           </table>
         </div>
@@ -495,4 +292,5 @@ function Inventory() {
     </div>
   );
 }
-export default Inventory;
+
+export default SalesReportPage1;

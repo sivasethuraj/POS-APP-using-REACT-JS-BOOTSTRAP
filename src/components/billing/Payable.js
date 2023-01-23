@@ -29,8 +29,34 @@ function Payable ( props ) {
             tender: 0,
             change: 0,
         } );
+        const storeSalesReport = () => {
+            const newSalesReportArray = tableRows.map( ( item ) => {
+                let type = item.id >= 41 ? 'inventory-item' : 'image-item';
+                return {
+                    id: item.id,
+                    name: item.name,
+                    soldQuantity: item.quantity,
+                    totalPrice: item.totalPrice,
+                    date: new Date(),
+                    type: type,
+                };
+            } );
 
-        console.log( tableRows, tableOfItems );
+            let oldSalesReportArray = JSON.parse( localStorage.getItem( 'salesReport' ) );
+            if ( oldSalesReportArray && oldSalesReportArray.length > 0 ) {
+
+                localStorage.setItem( 'salesReport', JSON.stringify( [
+                    ...oldSalesReportArray, ...newSalesReportArray,
+                ]
+                ) );
+            } else {
+                localStorage.setItem( 'salesReport', JSON.stringify( [
+                    ...newSalesReportArray,
+                ]
+                ) );
+            }
+        };
+
         if ( tableOfItems.length > 0 ) {
 
             tableRows.map( ( tableItem ) => {
@@ -39,7 +65,7 @@ function Payable ( props ) {
                     if ( tableItem.id === inventoryItems.id ) {
                         console.log( "id matched", tableItem.id, ' ', inventoryItems.id )
                         let sold, stock = 0;
-                        sold = tableItem.quantity + parseInt( inventoryItems.sold );
+                        sold = tableItem.quantity + inventoryItems.sold;
                         stock = inventoryItems.purchaseQuantity - sold;
                         const newInventoryItem = {
                             ...inventoryItems,
@@ -63,6 +89,7 @@ function Payable ( props ) {
                                 },
                             ] )
                         );
+
                         setTableOfItems( [
                             ...newTableOfItem,
                             {
@@ -74,6 +101,7 @@ function Payable ( props ) {
                     }
                 } );
             } );
+            storeSalesReport();
         }
         setPayablePage( ( prev ) => {
             return !prev;
