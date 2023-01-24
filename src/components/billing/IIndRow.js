@@ -125,7 +125,7 @@ function IIndRow ( props ) {
     const handleCalculatorValues = ( ref, value ) => {
         if ( !ref ) return;
         if ( ref === "id" ) {
-            handleIdChange( parseInt( value ) );
+            handleIdChange( parseInt( itemId.iId + value ) );
             setItemid( ( prev ) => {
                 return {
                     ...prev,
@@ -226,20 +226,46 @@ function IIndRow ( props ) {
                                 <button className="btn btn-primary m-1 py-4 px-2 text-center col-6" onClick={ () => {
 
                                     if ( pointer && pointer.current === 'id' ) {
-                                        setItemid( ( prev ) => {
-                                            return {
-                                                ...prev,
-                                                iId: 0,
-                                            }
-                                        } )
+                                        let id = String( itemId.iId );
+                                        if ( id.length > 1 ) {
+                                            id = id.slice( 0, -1 )
+
+                                            setItemid( ( prev ) => {
+                                                return {
+                                                    ...prev,
+                                                    iId: parseInt( id ),
+                                                }
+                                            } )
+                                        } else {
+                                            setItemid( ( prev ) => {
+                                                return {
+                                                    ...prev,
+                                                    iId: 0,
+                                                }
+                                            } )
+                                        }
+
                                     }
                                     if ( pointer && pointer.current === 'quantity' ) {
-                                        setItemid( ( prev ) => {
-                                            return {
-                                                ...prev,
-                                                iQuantity: 0,
-                                            }
-                                        } )
+                                        let quantity = String( itemId.iQuantity );
+
+                                        if ( quantity.length > 1 ) {
+                                            quantity = quantity.slice( 0, -1 );
+                                            setItemid( ( prev ) => {
+                                                return {
+                                                    ...prev,
+                                                    iQuantity: parseInt( quantity ),
+                                                }
+                                            } )
+                                        } else {
+
+                                            setItemid( ( prev ) => {
+                                                return {
+                                                    ...prev,
+                                                    iQuantity: 0,
+                                                }
+                                            } )
+                                        }
                                     }
                                 } }>Clear</button>
                             </div>

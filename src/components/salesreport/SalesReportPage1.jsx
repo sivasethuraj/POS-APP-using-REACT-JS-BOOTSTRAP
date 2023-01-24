@@ -209,10 +209,11 @@ function SalesReportPage1() {
         </div>
         <div className="row mt-3 justify-content-center">
           <div className="col-3">
-            <label htmlFor="filter" className="pe-1">
+            <label htmlFor="filter" className="pe-1 form-group">
               Filter By:{" "}
             </label>
             <select
+              className="form-group"
               name="day"
               id="filter"
               onChange={(e) => setFilterType(e.target.value)}

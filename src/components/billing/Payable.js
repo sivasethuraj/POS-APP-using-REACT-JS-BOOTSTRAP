@@ -5,7 +5,7 @@ function Payable ( props ) {
 
     useEffect( () => {
         const newTableOfItem = JSON.parse( localStorage.getItem( "inventory" ) );
-        if ( newTableOfItem.length > 0 ) {
+        if ( newTableOfItem && newTableOfItem.length > 0 ) {
             setTableOfItems( newTableOfItem );
         }
     }, [] );
