@@ -15,6 +15,8 @@ function App () {
   const [ tableOfItems, setTableOfItems ] = useState( [] );
   const style = {
     backgroundColor: '#aaaeb1af',
+    minHeight: '97.8vh',
+    width: '99.9vw',
   };
 
   return (

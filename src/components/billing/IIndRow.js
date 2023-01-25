@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import "./buttonstyle.css"
+
+import { Autocomplete, TextField } from '@mui/material'
 
 function IIndRow ( props ) {
 
@@ -11,15 +13,23 @@ function IIndRow ( props ) {
     }
     const [ isValid, setIsValid ] = useState( false );
     const [ itemId, setItemid ] = useState( {
-        iId: 0,
+        iName: '',
         iPrice: 0,
         iQuantity: 0,
     } );
+    const idOptions = () => {
+        const inventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
+        if ( inventoryArray ) {
+            return inventoryArray.map( ( item ) => item.name );
+        } else return false;
+
+    }
+    const options = idOptions();
+
     const specifiedObject = ( userPressedId ) => {
         const inventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
-
         if ( inventoryArray ) {
-            const newTableRow = inventoryArray.filter( ( item ) => item.id === userPressedId );
+            const newTableRow = inventoryArray.filter( ( item ) => item.name === userPressedId );
 
             if ( newTableRow.length > 0 ) {
                 return newTableRow[ 0 ];
@@ -29,6 +39,7 @@ function IIndRow ( props ) {
     }
 
     const handleIdChange = ( userPressedId ) => {
+
         const response = specifiedObject( userPressedId );
 
         if ( response ) {
@@ -58,7 +69,7 @@ function IIndRow ( props ) {
                 iQuantity: userQuantity,
             }
         } );
-        const response = specifiedObject( itemId.iId );
+        const response = specifiedObject( itemId.iName );
 
         if ( response ) {
             response.inStock > userQuantity ? setIsValid( true ) : setIsValid( false );
@@ -68,22 +79,22 @@ function IIndRow ( props ) {
     const changeTableData = () => {
 
         if ( isValid ) {
-            const response = specifiedObject( itemId.iId );
+            const response = specifiedObject( itemId.iName );
 
             if ( response ) {
                 // console.log( "inner" )
                 const { id, name, price } = response;
                 let newProduct = {};
-                const existingItem = tableRows.find( ( item ) => item.id === itemId.iId );
+                const existingItem = tableRows.find( ( item ) => item.name === itemId.iName );
 
                 if ( existingItem ) {
                     const newTableRows = tableRows.map( ( item ) => {
 
-                        if ( item.id === itemId.iId ) {
+                        if ( item.name === itemId.iName ) {
                             return {
                                 ...item,
-                                quantity: ( item.quantity + 1 ),
-                                totalPrice: ( ( item.quantity + 1 ) * item.unitPrice ),
+                                quantity: ( item.quantity + itemId.iQuantity ),
+                                totalPrice: ( ( item.quantity + itemId.iQuantity ) * item.unitPrice ),
                             }
                         } else {
                             if ( item.id ) {
@@ -106,14 +117,14 @@ function IIndRow ( props ) {
                 }
             }
             setItemid( {
-                iId: 0,
+                iName: '',
                 iPrice: 0,
                 iQuantity: 0,
             } );
         } else {
             // console.log( "outer" )
             setItemid( {
-                iId: 0,
+                iName: '',
                 iPrice: 0,
                 iQuantity: 0,
             } );
@@ -124,16 +135,16 @@ function IIndRow ( props ) {
 
     const handleCalculatorValues = ( ref, value ) => {
         if ( !ref ) return;
-        if ( ref === "id" ) {
-            handleIdChange( parseInt( itemId.iId + value ) );
-            setItemid( ( prev ) => {
-                return {
-                    ...prev,
-                    iId: parseInt( prev.iId + value ),
-                };
-            } );
-        }
-        else if ( ref === "quantity" ) {
+        // if ( ref === "id" ) {
+        //     handleIdChange( itemId.iName ) ;
+        //     setItemid( ( prev ) => {
+        //         return {
+        //             ...prev,
+        //             iId: parseInt( prev.iId + value ),
+        //         };
+        //     } );
+        // }
+        if ( ref === "quantity" ) {
             quantityCheck( parseInt( itemId.iQuantity + value ) )
         }
     }
@@ -144,7 +155,7 @@ function IIndRow ( props ) {
                 <div className="col-12 col-md-5 col-sm-12 ps-4 mt-3">
                     <div className="row text-center ">
                         <div className="col-3 col-md-3">
-                            <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Id</label>
+                            <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemname">Item Name</label>
                         </div>
                         <div className="col-3 col-md-3">
                             <label className="form-label text-primary bg-light px-3 rounded" htmlFor="itemprice">Item Price</label>
@@ -156,7 +167,30 @@ function IIndRow ( props ) {
                     </div>
                     <div className="row text-center">
                         <div className="col-3 col-md-3">
-                            <input className="form-control" type="number" value={ itemId.iId } onChange={ ( e ) => {
+                            {/*  */ }
+                            <div>
+                                <Autocomplete
+                                    value={ itemId.iName ? itemId.iName : options[ 0 ] }
+                                    onChange={ ( e, newValue ) => {
+                                        handleIdChange( newValue );
+                                        setItemid( ( prev ) => {
+                                            return {
+                                                ...prev,
+                                                iName: newValue,
+                                            };
+                                        } )
+                                    } }
+                                    onFocus={ () => pointer.current = 'id' }
+                                    id="controllable-states-demo"
+                                    options={ options ? options : [ 'no values' ] }
+                                    renderInput={ ( params ) => <TextField { ...params }
+                                        id="filled-hidden-label-small"
+                                        variant="filled"
+                                        size="small" /> }
+                                />
+                            </div>
+                            {/*  */ }
+                            {/* <input className="form-control" type="number" value={ itemId.iId } onChange={ ( e ) => {
                                 handleIdChange( parseInt( e.target.value ) );
                                 setItemid( ( prev ) => {
                                     return {
@@ -165,7 +199,7 @@ function IIndRow ( props ) {
                                     };
                                 } )
                             } }
-                                onFocus={ () => pointer.current = 'id' } />
+                                onFocus={ () => pointer.current = 'id' } /> */}
                         </div>
                         <div className="col-3 col-md-3">
                             <input className="form-control" type="number" readOnly id="itemprice" value={ itemId.iPrice } />

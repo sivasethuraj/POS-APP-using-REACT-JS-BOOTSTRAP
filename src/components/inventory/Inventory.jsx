@@ -24,7 +24,9 @@ function Inventory() {
 
   const validTableOfItemArray = () => {
     const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
-    tableOfItems = [...newTableOfItem];
+    if (newTableOfItem) {
+      tableOfItems = [...newTableOfItem];
+    }
   };
   const resetValues = () => {
     setNewItem({
@@ -92,7 +94,7 @@ function Inventory() {
   }, []);
 
   const heightStyle = {
-    minHeight: "100vh",
+    minHeight: "100%",
   };
 
   const deleteItem = (itemId) => {
@@ -468,26 +470,30 @@ function Inventory() {
               </tr>
             </thead>
             <tbody>
-              {tableOfItems.map((tr, index) => {
-                return (
-                  <tr key={index}>
-                    <th scope="row">{index}</th>
-                    <td>{tr.name}</td>
-                    <td>{tr.price}</td>
-                    <td>{tr.purchaseQuantity}</td>
-                    <td>{tr.sold}</td>
-                    <td>{tr.inStock}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger py-1"
-                        onClick={() => deleteItem(tr.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {tableOfItems ? (
+                tableOfItems.map((tr, index) => {
+                  return (
+                    <tr key={index}>
+                      <th scope="row">{index + 1}</th>
+                      <td>{tr.name}</td>
+                      <td>{tr.price}</td>
+                      <td>{tr.purchaseQuantity}</td>
+                      <td>{tr.sold}</td>
+                      <td>{tr.inStock}</td>
+                      <td>
+                        <button
+                          className="btn btn-danger py-1"
+                          onClick={() => deleteItem(tr.id)}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <div>No item Found</div>
+              )}
             </tbody>
           </table>
         </div>

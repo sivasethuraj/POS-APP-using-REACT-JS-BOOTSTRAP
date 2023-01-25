@@ -17,11 +17,17 @@ function ItemRequestPage () {
     } );
     const updaterFunctions = () => {
         const inventoryArray = JSON.parse( localStorage.getItem( 'inventory' ) );
-        return inventoryArray;
+
+        if ( inventoryArray ) {
+            return inventoryArray;
+        } else return false;
     }
-    const options = updaterFunctions().map( ( items ) => {
-        return items.name;
-    } )
+    let options = updaterFunctions();
+    if ( updaterFunctions ) {
+        options = options.map( ( items ) => {
+            return items.name;
+        } );
+    }
     // console.log( options );
     useEffect( () => {
         const existingArray = JSON.parse( localStorage.getItem( 'itemRequest' ) );
@@ -33,7 +39,7 @@ function ItemRequestPage () {
         }
     }, [] );
     const style = {
-        minHeight: '100vh',
+        minHeight: '98.7vh',
     }
     const resetValues = () => {
         setNewItem( {
@@ -54,11 +60,6 @@ function ItemRequestPage () {
             alert( "Please Enter All Fields Correctly !" );
             return;
         }
-        if ( new Date( date ) < new Date() ) {
-            alert( 'Enter valid expected date !' );
-            return
-        }
-
         const inventoryArray = updaterFunctions();
         if ( inventoryArray ) {
             let newRequestItem = inventoryArray.find( ( item ) => {
@@ -116,30 +117,33 @@ function ItemRequestPage () {
             return
         }
         const inventoryArray = updaterFunctions();
-        tableOfItems.map( ( requestItems ) => {
-            inventoryArray.map( ( inventoryItems ) => {
-                if ( requestItems.id === inventoryItems.id ) {
-                    const newInventoryItem = {
-                        ...inventoryItems,
-                        purchaseQuantity: parseInt( requestItems.inventoryQuantity ),
-                    };
-                    // ! after testing localstorage id changed to inventory
-                    let localStorageInventoryArray = JSON.parse( localStorage.getItem( "demoInventory" ) );
+        if ( inventoryArray ) {
+            tableOfItems.map( ( requestItems ) => {
+                inventoryArray.map( ( inventoryItems ) => {
+                    if ( requestItems.id === inventoryItems.id ) {
+                        const newInventoryItem = {
+                            ...inventoryItems,
+                            purchaseQuantity: parseInt( requestItems.inventoryQuantity ),
+                            inStock: parseInt( requestItems.inventoryQuantity ) - parseInt( inventoryItems.sold ),
+                        };
 
-                    const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
+                        let localStorageInventoryArray = JSON.parse( localStorage.getItem( "inventory" ) );
 
-                    localStorage.setItem(
-                        "demoInventory",
-                        JSON.stringify( [
-                            ...newTableOfItem,
-                            {
-                                ...newInventoryItem,
-                            },
-                        ] )
-                    );
-                }
+                        const newTableOfItem = localStorageInventoryArray.filter( ( item ) => item.id !== inventoryItems.id );
+
+                        localStorage.setItem(
+                            "inventory",
+                            JSON.stringify( [
+                                ...newTableOfItem,
+                                {
+                                    ...newInventoryItem,
+                                },
+                            ] )
+                        );
+                    }
+                } );
             } );
-        } );
+        }
         setTableOfItems( [] );
         localStorage.setItem( 'itemRequest', JSON.stringify( [] ) );
         resetValues();
@@ -178,7 +182,7 @@ function ItemRequestPage () {
                                 {
                                     tableOfItems && tableOfItems.map( ( item, index ) => {
                                         return ( <tr key={ index }>
-                                            <td>{ index }</td>
+                                            <td>{ index + 1 }</td>
                                             <td>{ item.name }</td>
                                             <td>{ item.quantity }</td>
                                             <td>{ item.date }</td>
@@ -215,7 +219,7 @@ function ItemRequestPage () {
                                         }
                                     } );
                                 } }
-                                options={ options }
+                                options={ options ? options : [ 'no values' ] }
                                 renderInput={ ( params ) => <TextField { ...params } label="name"
                                     id="filled-hidden-label-small"
                                     variant="filled"
@@ -246,7 +250,7 @@ function ItemRequestPage () {
                                         }
                                     } )
                                 }
-                            } } /></div>
+                            } } min={ new Date().toLocaleDateString( 'en-ca' ) } /></div>
                     <div className="ms-1 col-1 px-0">
                         <button className='btn btn-primary col-10' onClick={ () => {
                             handleTableOfItems();

@@ -9,13 +9,16 @@ function SalesReportPage1() {
     to: "",
   });
 
-  let [tableOfItems, setTableOfItems] = useState([
-    ...JSON.parse(localStorage.getItem("salesReport")),
-  ]);
+  let [tableOfItems, setTableOfItems] = useState(
+    []
+    // ...JSON.parse( localStorage.getItem( "salesReport" ) ),
+  );
 
   const validTableOfItemArray = () => {
     const newTableOfItem = JSON.parse(localStorage.getItem("salesReport"));
-    tableOfItems = [...newTableOfItem];
+    if (newTableOfItem) {
+      tableOfItems = [...newTableOfItem];
+    }
   };
 
   useEffect(() => {
@@ -279,7 +282,7 @@ function SalesReportPage1() {
                 tableOfItems.map((tr, index) => {
                   return (
                     <tr key={index}>
-                      <th scope="row">{index}</th>
+                      <th scope="row">{index + 1}</th>
                       <td>{tr.name}</td>
                       <td>{tr.soldQuantity}</td>
                       <td>$ {tr.totalPrice}</td>
