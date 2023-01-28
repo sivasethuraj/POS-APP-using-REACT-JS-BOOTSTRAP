@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { InventoryContext } from "../../App";
 
 let initialId = 41;
@@ -20,7 +20,10 @@ function Inventory() {
     inStock: 0,
     date: "",
   });
-  let { tableOfItems, setTableOfItems } = useContext(InventoryContext);
+  const navigate = useNavigate();
+  let { tableOfItems, setTableOfItems, setClickedId } = useContext(
+    InventoryContext
+  );
 
   const validTableOfItemArray = () => {
     const newTableOfItem = JSON.parse(localStorage.getItem("inventory"));
@@ -90,6 +93,7 @@ function Inventory() {
     if (newTableOfItem && newTableOfItem.length > 0) {
       initialId = newTableOfItem[newTableOfItem.length - 1].id + 1;
       setTableOfItems(newTableOfItem);
+      console.log("loaded");
     }
   }, []);
 
@@ -98,13 +102,18 @@ function Inventory() {
   };
 
   const deleteItem = (itemId) => {
-    validTableOfItemArray();
-    const newTableOfItem = tableOfItems.filter((item) => {
-      return item.id !== itemId;
-    });
+    if (window.confirm("Are you sure you want to delete!")) {
+      validTableOfItemArray();
+      const newTableOfItem = tableOfItems.filter((item) => {
+        return item.id !== itemId;
+      });
 
-    localStorage.setItem("inventory", JSON.stringify(newTableOfItem));
-    setTableOfItems(newTableOfItem);
+      localStorage.setItem("inventory", JSON.stringify(newTableOfItem));
+      setTableOfItems(newTableOfItem);
+    }
+  };
+  const editItem = (id) => {
+    setClickedId(String(id));
   };
 
   const filterLogic = () => {
@@ -470,7 +479,14 @@ function Inventory() {
               </tr>
             </thead>
             <tbody>
-              {tableOfItems ? (
+              {!tableOfItems | (tableOfItems.length === 0) ? (
+                <tr>
+                  <td className="mt-4 text-center" colSpan={6}>
+                    <h3>No Items Found</h3>
+                  </td>
+                </tr>
+              ) : (
+                tableOfItems &&
                 tableOfItems.map((tr, index) => {
                   return (
                     <tr key={index}>
@@ -482,6 +498,17 @@ function Inventory() {
                       <td>{tr.inStock}</td>
                       <td>
                         <button
+                          className="btn btn-warning py-1"
+                          onClick={() => {
+                            editItem(tr.id);
+                            navigate("/inventory/edit");
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </td>
+                      <td>
+                        <button
                           className="btn btn-danger py-1"
                           onClick={() => deleteItem(tr.id)}
                         >
@@ -491,9 +518,8 @@ function Inventory() {
                     </tr>
                   );
                 })
-              ) : (
-                <div>No item Found</div>
               )}
+              {}
             </tbody>
           </table>
         </div>

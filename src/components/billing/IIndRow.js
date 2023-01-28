@@ -62,6 +62,9 @@ function IIndRow ( props ) {
 
     }
     const quantityCheck = ( userQuantity ) => {
+        if ( userQuantity <= 0 ) {
+            return
+        }
 
         setItemid( ( prev ) => {
             return {
@@ -77,6 +80,10 @@ function IIndRow ( props ) {
         // console.log( 'validStock', isValid )
     }
     const changeTableData = () => {
+        if ( itemId.iName === '' || itemId.iQuantity <= 0 ) {
+            alert( 'Please Enter All Fields !' );
+            return
+        }
 
         if ( isValid ) {
             const response = specifiedObject( itemId.iName );
@@ -205,7 +212,7 @@ function IIndRow ( props ) {
                             <input className="form-control" type="number" readOnly id="itemprice" value={ itemId.iPrice } />
                         </div>
                         <div className="col-3 col-md-3">
-                            <input className="form-control" type="number" id="itemquantity" value={ itemId.iQuantity }
+                            <input className="form-control" type="number" min={ "0" } id="itemquantity" value={ itemId.iQuantity }
                                 onChange={ ( e ) => {
                                     quantityCheck( parseInt( e.target.value ) )
                                 } }
@@ -250,7 +257,7 @@ function IIndRow ( props ) {
                             <div className="row">
                                 <button className="btn btn-primary m-1 py-4 px-2 text-center col-6" onClick={ () => {
                                     setItemid( {
-                                        iId: 0,
+                                        iName: '',
                                         iPrice: 0,
                                         iQuantity: 0,
                                     } )
@@ -484,7 +491,7 @@ export default function Button ( props ) {
         height: `${props.height}em`,
     }
     let onClick = props.onClick ? props.onClick : () => {
-        console.log( "this feature will enabling soon!" );
+        alert( "this feature will enabling soon!" );
     }
     if ( props.className === 'mainmenu' ) {
         onClick = () => navigate( "/" );

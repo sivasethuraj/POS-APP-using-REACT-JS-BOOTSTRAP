@@ -18,12 +18,6 @@ function UpperTablePage ( { tableRows, setTableRows, wholeTotalPrice, setWholeTo
             totalPrice += tableRows[ i ].totalPrice;
         }
         setWholeTotalPrice( totalPrice );
-        // setBillingValues( ( prev ) => {
-        //     return {
-        //         ...prev,
-        //         amount: totalPrice,
-        //     }
-        // } );
     } )
 
     return (
@@ -66,33 +60,14 @@ function Tl ( props ) {
 
     const { id, name, quantity, unitPrice, totalPrice } = props.item;
 
-    // const updaterFunction = () => {
-    //     let newTableRow = [];
-    //     let wholeTotalPrice = 0;
-
-    //     for ( const key in localStorage ) {
-
-    //         if ( localStorage.hasOwnProperty( key ) ) {
-
-    //             let object = JSON.parse( localStorage.getItem( key ) );
-    //             newTableRow.unshift( object );
-    //             wholeTotalPrice += object.totalPrice;
-    //         }
-    //     }
-
-    //     setTableRows( () => newTableRow );
-    //     setWholeTotalPrice( wholeTotalPrice );
-
-
-
-
-    // };
-
     const removeItem = ( clickedItemId ) => {
-        const { tableRows, setTableRows } = props;
-        localStorage.removeItem( id );
-        setTableRows( tableRows.filter( ( item ) => item.id !== clickedItemId ) )
-        console.log( "removed id: ", id, "successfully" );
+        if ( window.confirm( 'Are ou sure you want to delete!' ) ) {
+
+            const { tableRows, setTableRows } = props;
+            localStorage.removeItem( id );
+            setTableRows( tableRows.filter( ( item ) => item.id !== clickedItemId ) )
+            console.log( "removed id: ", id, "successfully" );
+        }
     }
     return (
         <tr>

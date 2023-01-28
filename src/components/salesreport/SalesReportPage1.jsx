@@ -278,7 +278,14 @@ function SalesReportPage1() {
               </tr>
             </thead>
             <tbody>
-              {tableOfItems &&
+              {!tableOfItems | (tableOfItems.length === 0) ? (
+                <tr>
+                  <td className="mt-4 text-center" colSpan={4}>
+                    <h3>No Items Found</h3>
+                  </td>
+                </tr>
+              ) : (
+                tableOfItems &&
                 tableOfItems.map((tr, index) => {
                   return (
                     <tr key={index}>
@@ -288,7 +295,8 @@ function SalesReportPage1() {
                       <td>$ {tr.totalPrice}</td>
                     </tr>
                   );
-                })}
+                })
+              )}
             </tbody>
           </table>
         </div>

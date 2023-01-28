@@ -17,13 +17,12 @@ function ItemRequestPage () {
     } );
     const updaterFunctions = () => {
         const inventoryArray = JSON.parse( localStorage.getItem( 'inventory' ) );
-
         if ( inventoryArray ) {
             return inventoryArray;
         } else return false;
     }
     let options = updaterFunctions();
-    if ( updaterFunctions ) {
+    if ( options ) {
         options = options.map( ( items ) => {
             return items.name;
         } );
@@ -53,7 +52,7 @@ function ItemRequestPage () {
 
         const { name, quantity, date } = newItem;
         if (
-            name === "" ||
+            name === "" || name === "null" ||
             quantity === "" ||
             quantity <= 0 || date === ''
         ) {
@@ -179,9 +178,14 @@ function ItemRequestPage () {
                                 </tr>
                             </thead>
                             <tbody>
-                                {
+                                { ( !tableOfItems ) | ( tableOfItems.length === 0 ) ?
+                                    <tr>
+                                        <td className="mt-4 text-center" colSpan={ 4 }>
+                                            <h3>No Items Found</h3>
+                                        </td>
+                                    </tr> :
                                     tableOfItems && tableOfItems.map( ( item, index ) => {
-                                        return ( <tr key={ index }>
+                                        return ( <tr key={ index + 1 }>
                                             <td>{ index + 1 }</td>
                                             <td>{ item.name }</td>
                                             <td>{ item.quantity }</td>
@@ -215,7 +219,7 @@ function ItemRequestPage () {
                                     setNewItem( ( prev ) => {
                                         return {
                                             ...prev,
-                                            name: newInputValue,
+                                            name: newInputValue ? newInputValue : 'null',
                                         }
                                     } );
                                 } }
